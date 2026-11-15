@@ -10,6 +10,6 @@ Every forge doc (design, impl step, ledger, review, understanding, health).
 | DS4 | Every section earns its place. Nothing to say → omit section. |
 | DS5 | Concrete refs: `path/file.ts:42`, `§Detailed design`, `R3`, `UC2`. |
 | DS6 | Number things others will cite: requirements `R1…`, use cases `UC1…`, findings `#1…`. |
-| DS7 | Diagrams as mermaid in fenced blocks; keep ≤ 12 nodes. |
+| DS7 | Diagrams per `rules/diagrams.md`. |
 | DS8 | Guesses marked `(assumption)`; user decisions marked `(decided YYYY-MM-DD)`. |
 | DS9 | Dates absolute `YYYY-MM-DD`, never "yesterday"/"next week". |

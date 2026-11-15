@@ -13,12 +13,12 @@ Claude Code plugin marketplace. First plugin: **forge** — one skill that runs 
 
 | Command | Does |
 |---|---|
-| `/forge` | Existing code, no docs → onboard. Open tasks → list, resume chosen one. Empty repo → ask what to build. |
-| `/forge new <desc>` | Size task (Fix / Change / Build), create task folder, start first stage |
-| `/forge <stage> [task#]` | `design` · `architect` · `impl-plan` · `develop` · `test` · `review` |
-| `/forge review <design\|arch\|test\|code> [target]` | Review task#, path, branch or PR |
-| `/forge onboard` | Re-run codebase understanding + health |
-| `/forge ai-readiness` | Audit missing AI-assisted-dev elements |
+| `/forge:forge` | Existing code, no docs → onboard. Open tasks → list, resume chosen one. Empty repo → ask what to build. |
+| `/forge:forge new <desc>` | Size task (Fix / Change / Build), create task folder, start first stage |
+| `/forge:forge <stage> [task#]` | `design` · `architect` · `impl-plan` · `develop` · `test` · `review` |
+| `/forge:forge review <design\|arch\|test\|code> [target]` | Review task#, path, branch or PR |
+| `/forge:forge onboard` | Re-run codebase understanding + health |
+| `/forge:forge ai-readiness` | Audit missing AI-assisted-dev elements |
 
 ## Sizing
 

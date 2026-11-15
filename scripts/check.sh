@@ -75,7 +75,7 @@ fi
 EXPECTED="stages/onboard.md stages/ai-readiness.md stages/design.md stages/architect.md
 stages/impl-plan.md stages/develop.md stages/test.md stages/review.md
 rules/guardrails.md rules/doc-style.md rules/api-standards.md rules/code-standards.md
-rules/test-standards.md rules/security-checklist.md
+rules/test-standards.md rules/security-checklist.md rules/diagrams.md
 templates/design.md templates/impl-task.md templates/ledger.md templates/review.md
 templates/understanding.md templates/health.md templates/tasks-index.md
 domains/crm.md domains/voice-message-agents.md domains/ecommerce.md"

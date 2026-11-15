@@ -15,8 +15,8 @@
 
 | Type | Checks |
 |---|---|
-| design | problem has evidence; Solving exactly is precise; every R# testable; scope has explicit outs; UC# ↔ R# mapped; open questions resolved or owned |
-| arch | approach choice justified vs alternatives; data model + migrations reversible; APIs meet `rules/api-standards.md` API1–API5 incl. every error case; `rules/security-checklist.md` items answered; flags have kill switch + removal; failure modes + observability; consistent with `understanding.md`; domain pack items |
+| design | problem has evidence; Solving exactly is precise; every R# testable; scope has explicit outs; UC# ↔ R# mapped; open questions resolved or owned; `rules/diagrams.md` DG2 design set present, problem understandable from diagram + `Read:` alone |
+| arch | approach choice justified vs alternatives; `rules/diagrams.md` DG2 architect set present, DG3 captions, DG7 diagram ↔ text agree; data model + migrations reversible; APIs meet `rules/api-standards.md` API1–API5 incl. every error case; `rules/security-checklist.md` items answered; flags have kill switch + removal; failure modes + observability; consistent with `understanding.md`; domain pack items |
 | test | every R#/UC# covered; negative/edge/authz cases; levels per TS10; `rules/test-standards.md` TS1–TS11; tests actually run (evidence) |
 | code | correctness vs design + step files; `rules/code-standards.md`; security checklist on changed surface; tests present + green; ledger `✅` rows all have `Verified by` (flag any without, G5); no scope creep (G8) |
 

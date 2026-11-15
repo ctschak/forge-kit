@@ -2,7 +2,7 @@
 
 Owns design doc sections **Problem → Use cases** (Fix size: also Detailed design before/after + Test coverage). File: `tasks/NN_<slug>/YYYY-MM-DD_<slug>_design.md` from `templates/design.md`.
 
-Read first: `understanding.md` (if present), matching `domains/*.md` (see SKILL.md §7).
+Read first: `understanding.md` (if present), matching `domains/*.md` (see SKILL.md §7), `rules/diagrams.md`.
 
 ## Grill — cover every row before writing
 
@@ -27,10 +27,12 @@ One question per message. Guess when you can and let user correct: "I'm guessing
 
 - Requirements numbered R1…; each testable.
 - Use cases UC1… in table.
+- Diagrams per `rules/diagrams.md` DG2 (design column): current-state flow in Problem with `❌` at the break; actor flow in Use cases if ≥ 3 actors. Each with `**Read:**` caption (DG3).
 - Concise per `rules/doc-style.md`.
 
 ## Done when
 
 - Every R# testable; every UC# maps to ≥1 R#.
+- DG2 diagrams present (or `n/a — <why>`), each captioned.
 - Open questions listed (or none).
 - User approved → `Status: design · ✅`, index updated, next stage named (architect for Build, impl-plan for Change, develop for Fix).

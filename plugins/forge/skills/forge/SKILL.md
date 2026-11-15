@@ -18,7 +18,7 @@ Senior-architect workflow: understand → question → write approach → approv
 1. Project `CLAUDE.md` has line `forge-docs: <path>` → use it; expand `~`; relative = from repo root.
 2. Else → `docs/forge/` in repo root.
 3. Root dir missing → say which path, confirm before creating.
-4. No project `CLAUDE.md` or no `forge-docs:` line, first write → ask once: default `docs/forge/` or another path; offer to add the `forge-docs:` line.
+4. No `forge-docs:` line, first write → ask one question: "Docs in `docs/forge/` (default) or another path?" Default chosen → no `CLAUDE.md` change. Other path chosen → then offer to add `forge-docs: <path>` to project `CLAUDE.md` (create file if missing).
 
 Layout under root:
 ```
