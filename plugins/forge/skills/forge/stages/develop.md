@@ -2,6 +2,17 @@
 
 Input: approved design + `impl-tasks/` (standard, deep) or spec `## Fix` / design Detailed design (fast). Apply `rules/code-standards.md`.
 
+## Entry
+
+| Command | Runs |
+|---|---|
+| `develop` | ledger `Next:` |
+| `develop SPEC-n.TASKk` | that item, if its `depends_on` rows are ✅ (else say which block it) |
+| `develop #123` / issue URL | item whose ledger `Issue` matches, or whose issue body has the `forge:SPEC-n.TASKk` marker |
+| `develop batch` | all items whose deps are ✅ (one `plan` batch), one after another; parallel execution belongs to the orchestrator (prompt 03) |
+
+Before each item: `spec_check.py check <spec> --require-approved --rev N` (N = design pin). Stale → stop: spec changed since design; re-run design impact, don't build old scope.
+
 ## Loop — per ledger step
 
 1. Read ledger `Next:` → step file. Set row `🔄 in progress`, date.

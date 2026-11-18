@@ -37,7 +37,10 @@ tasks/NN_<slug>/reviews/YYYY-MM-DD_<type>_review.md
 | `ai-readiness` | `stages/ai-readiness.md` |
 | `new <desc>` or free-text request for new work | §4 |
 | `discover` · `spec` | `stages/<name>.md` on active task |
-| `design` · `architect` · `impl-plan` · `develop` · `test` | `stages/<name>.md` on active task |
+| `design [SPEC-n \| path \| #issue \| text]` | `stages/design.md` (resolves input, normalizes external docs) |
+| `develop [SPEC-n.TASKk \| #issue \| batch]` | `stages/develop.md` |
+| `architect` · `impl-plan` · `test` | `stages/<name>.md` on active task |
+| `publish` | `stages/publish.md` (tracker issues) |
 | `review <type> [target]` | `stages/review.md` |
 | none | §5 next step |
 

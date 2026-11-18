@@ -25,6 +25,7 @@ Read first: `understanding.md` (conventions, existing modules, data model), matc
 | Feature flags | name, default, rollout steps, kill switch, removal task |
 | Failure modes | dependency down/slow, retries, idempotency, timeouts, partial failure |
 | Observability | logs (with request id), metrics, alerts |
+| Evolution path | simplest viable shape now; what changes later and when; scaling triggers (metric + threshold → action); capacity/cost now with labelled assumptions; no premature infrastructure |
 | Test coverage | levels per `rules/test-standards.md` TS10; each R#/UC# mapped |
 
 Diagrams: required set per `rules/diagrams.md` DG2 (architect column); every one captioned (DG3) and matching the text (DG7).

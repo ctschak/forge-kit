@@ -1,10 +1,23 @@
-# NN <step-name>
+---
+id: SPEC-<n>.TASK<NN>
+type: <story|enabler|spike|bug|task>
+refs: [R<n>, AC<n>]
+depends_on: []
+layer: <db|backend|frontend|integration|telemetry|test|mixed>
+---
 
-Design ref: §<section> · R<#> · UC<#>
-Depends on: <NN or none>
+# NN <item-name>
 
-## Goal
-<!-- one line -->
+Design ref: §<section> · Spec: SPEC-<n> @ rev <N>
+
+## Outcome
+<!-- one measurable engineering result -->
+
+## Scope
+<!-- in · non-scope -->
+
+## Acceptance criteria
+<!-- this item's checks; cite spec AC it contributes to -->
 
 ## Files
 - Modify: `path/file.ext` (fn/area)
@@ -14,7 +27,6 @@ Depends on: <NN or none>
 ## Steps
 1.
 2.
-3.
 
 ## Code
 ```<lang>
@@ -31,8 +43,12 @@ Depends on: <NN or none>
 Expected: <exact output / test names green>
 
 ## Done when
+- [ ] Tests for this item written and green
 - [ ] Verify command passes
 - [ ] Ledger row updated with `Verified by`
+
+## Blockers
+<!-- none, or what + who unblocks -->
 
 ## Deviations
 <!-- filled during develop if implementation differs from design -->

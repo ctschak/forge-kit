@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.3.0 — 2026-11-18
+
+Spec → executable work (prompt 02; design `docs/2026-11-18-forge-spec-to-work-design.md`).
+
+- design resolves any input to one contract spec: `SPEC-n`, path, issue, external PRD (normalized: `source: external:…`, `## Imported`, `## Open gaps`, nothing invented) or text. Minimum-sufficient sections by path; current vs proposed with `file:line`; reuse; evolution path with scaling triggers; migrations state forward + rollback + deploy order; spike only when feasibility blocks a decision.
+- Work items (CT12): front matter `id SPEC-n.TASKk`, `type`, `refs`, `depends_on`, `layer`; split rules; fast path = spec `## Fix`.
+- `spec_check.py gaps` (report-only) and `plan` (coverage, unknown deps, cycles, duplicates, batches, critical path, `--json` manifest).
+- Ledger columns `ID · Item · Type · Depends · Status · Verified by · Issue · Updated`; tracker owns live status.
+- develop entry by item / issue / batch; stale spec revision check before each item.
+- Tracker publishing: `rules/trackers.md` (TR1–TR7, `forge-tracker:` preference, GitHub `gh`, GitLab `glab`, Jira/Linear via connectors), `stages/publish.md`, `scripts/tracker_sync.py` (marker-based idempotent planner + ledger writer). Preview + approval before every external write; never close/delete.
+- Tests: `tests/spec_check` 44, `tests/tracker_sync` 13, run by `scripts/check.sh`. Evals E1–E3: `evals/results/2026-11-18-sliceA.md`.
+
 ## 0.2.1 — 2026-11-18
 
 - discover ends with one ask (agree / override verdict); assumptions shown as `Assumed:` statements, not questions (eval F1: D3 questions 3 → 1).

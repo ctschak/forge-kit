@@ -36,6 +36,12 @@ flowchart LR
 |---|---|---|---|
 | UC1 | | | |
 
+## Current vs proposed
+<!-- spec exists: behavior today with `file:line` evidence → proposed change. Gaps found in spec + proposed decisions. -->
+
+## Affected components + reuse
+<!-- what changes, what is reused as-is; no rewrite without reason -->
+
 ## Approaches
 | | A: <name> | B: <name> |
 |---|---|---|
@@ -107,6 +113,9 @@ erDiagram
 ## Feature flags
 | Flag | Default | Rollout | Kill switch | Removal |
 |---|---|---|---|---|
+
+## Evolution path
+<!-- now: simplest viable shape · later: what changes and when · scaling triggers: metric + threshold → action · capacity/cost now (assumptions labelled) -->
 
 ## Test coverage
 | Test | Level | Covers |

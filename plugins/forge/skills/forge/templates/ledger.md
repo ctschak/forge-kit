@@ -2,11 +2,14 @@
 
 Rule: `✅ done` only with `Verified by` filled (command + result). Statuses: `⬜ not started` · `🔄 in progress` · `✅ done` · `⛔ blocked`.
 
-| # | Step | Status | Verified by | Updated |
-|---|---|---|---|---|
-| 01 | <step-slug> | ⬜ not started | — | — |
+Status = evidence state. When a tracker is used it owns live status (assignee, open/closed); `Issue` holds the verified URL.
 
-Next: 01 — <what to do first>
+| ID | Item | Type | Depends | Status | Verified by | Issue | Updated |
+|---|---|---|---|---|---|---|---|
+| SPEC-<n>.TASK1 | <item-slug> | story | — | ⬜ not started | — | — | — |
+
+Next: SPEC-<n>.TASK1 — <what to do first>
+Batches: <from `spec_check.py plan`> · Critical path: <…>
 Blockers: none
 
 ## Log
