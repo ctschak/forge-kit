@@ -76,6 +76,8 @@ EXPECTED="stages/onboard.md stages/ai-readiness.md stages/design.md stages/archi
 stages/impl-plan.md stages/develop.md stages/test.md stages/review.md
 stages/discover.md stages/spec.md rules/contract.md templates/spec.md scripts/spec_check.py
 stages/publish.md rules/trackers.md scripts/tracker_sync.py
+rules/quality.md rules/profiles/js-ts.md rules/profiles/java.md rules/profiles/python.md rules/profiles/database.md
+scripts/quality_detect.py templates/readiness.md
 rules/guardrails.md rules/doc-style.md rules/api-standards.md rules/code-standards.md
 rules/test-standards.md rules/security-checklist.md rules/diagrams.md
 templates/design.md templates/impl-task.md templates/ledger.md templates/review.md
@@ -87,7 +89,7 @@ for e in $EXPECTED; do [ -f "$SKILL_DIR/$e" ] || { fail "expected file missing: 
 
 # 4c. Validator unit tests
 log=$(mktemp)
-for suite in spec_check tracker_sync; do
+for suite in spec_check tracker_sync quality_detect; do
   if python3 -m unittest discover -s "$ROOT/tests/$suite" >"$log" 2>&1; then
     pass "$suite tests ($(grep -o 'Ran [0-9]* tests' "$log"))"
   else

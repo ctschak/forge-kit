@@ -42,7 +42,11 @@ tasks/NN_<slug>/reviews/YYYY-MM-DD_<type>_review.md
 | `architect` · `impl-plan` · `test` | `stages/<name>.md` on active task |
 | `publish` | `stages/publish.md` (tracker issues) |
 | `review <type> [target]` | `stages/review.md` |
+| `SPEC-n` · `#issue` | that task → §5 next step |
+| `status` | one line per open task: path, step, readiness state (`templates/readiness.md`) |
 | none | §5 next step |
+
+Modifiers on any of the above: `until <step>` → stop after that step · `only <step>` → run just that step.
 
 Experts may name any stage or path explicitly — that overrides the inferred step.
 
@@ -73,7 +77,9 @@ Aims, not promises: fast in hours; standard MVP slice usable in 2–3 days, prod
 1. Read `tasks/index.md` → active task; spec `status`; design `Status:` line; `impl-tasks/ledger.md` `Next:` + `Blockers:`. Docs, not chat memory.
 2. Next step = first unfinished step of the task's path (§4). Spec `dropped` → task closed.
 3. Print one line: `SPEC-7 Lesson reminders · standard · spec approved → next: design (starting)`.
-4. Run it. Stop only for: approval point, decision-changing ambiguity, irreversible/external action, missing authority, blocker.
+4. Run it, then the next, through the path: spec → design → plan → develop → test (quality gate, `rules/quality.md`) → review code (3 perspectives + fix loop) → readiness report. Stop only for: approval point, decision-changing ambiguity, irreversible/external action, missing authority, blocker, `until`.
+   - Approval denied → Log `[approval] denied: <reason>`, stop, offer alternatives (revise, smaller scope, drop); build nothing.
+   - Project `CLAUDE.md` `forge-approvals: combined` + spec approved → standard path asks design + plan approval together (one stop).
 5. Load only that stage file + the files it needs.
 
 If `understanding.md` commit SHA is ≥ 30 commits behind `HEAD` (`git rev-list --count <sha>..HEAD`), offer `onboard` refresh first.
@@ -81,9 +87,9 @@ If `understanding.md` commit SHA is ≥ 30 commits behind `HEAD` (`git rev-list 
 ## 6. Every stage
 
 1. **Questions only when the answer changes the decision.** Batch related ones (≤ 3 per message), offer a recommended default for each. Otherwise state `(assumption)` and continue; list assumptions at the next approval point. Anchor in specifics (a real scenario, a file, a number).
-2. **Write** the stage's output into its file, per `rules/doc-style.md`.
+2. **Write** the stage's output into its file, per `rules/doc-style.md`. Resume = continue from the docs; never regenerate an artifact that exists and is still valid.
 3. **Approval** only at the path's approval points (§4) and before irreversible/external actions (G1). Changes requested → revise, ask again.
-4. **Record.** Update spec `status` / design `Status:` line, ledger (if any), `tasks/index.md` row (step, status, date). Append one `Log` line.
+4. **Record.** Update spec `status` / design `Status:` line, ledger (if any), `tasks/index.md` row (step, status, date). Append one `Log` line (tags `[approval]` `[intervention]` `[rework]` for metrics).
 5. **Continue.** Print the §5 line and start the next step; user can redirect or stop.
 
 ## 7. Domain packs

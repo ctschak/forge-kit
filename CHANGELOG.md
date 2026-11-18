@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.4.0 — 2026-11-18
+
+Adaptive SDLC + quality, Phase 1 (prompt 03; design `docs/2026-11-18-forge-adaptive-sdlc-design.md`).
+
+- Entry: `/forge:forge SPEC-n` / `#issue` continues to the next approval point; `until <step>`, `only <step>`, `status`; approval denial logged and stops; `forge-approvals: combined` (standard path).
+- `rules/quality.md` (QG1–QG8): relevant checks, evidence format, unrun checks reported, never weaken gates, missing-tool proposals with versions from project runtime + official docs, coverage policy (80% changed lines default when measurable), tests prove behavior.
+- Profiles `rules/profiles/`: js-ts, java, python, database — loaded only when detected.
+- `scripts/quality_detect.py` (+10 tests): project scripts / CI / tool config / defaults → checks with availability; never runs or installs.
+- test stage runs the quality gate; review `code` = static · functional · architecture perspectives, finding format with evidence, fix loop (max 3 rounds) → readiness report (`templates/readiness.md`: implemented / reviewed / verified / release-ready / released).
+- Ledger: `Checks:` line, Log tags `[approval]` `[intervention]` `[rework]`; contract CT2 optional `fixes: [SPEC-n]` (escaped defects).
+- Evals Q1–Q7 vs 0.3.0: `evals/results/2026-11-18-phase1-sdlc.md` (same turns, +2–5% time, +1 doc).
+
 ## 0.3.0 — 2026-11-18
 
 Spec → executable work (prompt 02; design `docs/2026-11-18-forge-spec-to-work-design.md`).

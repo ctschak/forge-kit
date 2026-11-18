@@ -5,7 +5,7 @@ One small contract between product stages (discover, spec) and engineering stage
 | ID | Rule |
 |---|---|
 | CT1 | **IDs.** Spec = initiative = task: `SPEC-<n>`, n = task folder number (`07_<slug>` → `SPEC-7`). Inside: `SPEC-7.R3` requirement · `SPEC-7.AC2` acceptance criterion · `SPEC-7.TASK2` work item (= impl step 02). Released features in `PRD.md`: `FEAT-<n>`. Plain numbers, never reused. |
-| CT2 | **Front matter** (required): `contract: 1` · `id` · `revision` (integer, +1 per approved-scope change) · `status` · `path` (fast / standard / deep) · `source_rev` (git commit the spec was written against). Optional: `depends_on: [SPEC-3]` · `changes: [FEAT-4]` · `source: native | external:<path>@<rev>` (normalized external doc). Unknown fields ignored. |
+| CT2 | **Front matter** (required): `contract: 1` · `id` · `revision` (integer, +1 per approved-scope change) · `status` · `path` (fast / standard / deep) · `source_rev` (git commit the spec was written against). Optional: `depends_on: [SPEC-3]` · `changes: [FEAT-4]` · `source: native | external:<path>@<rev>` (normalized external doc) · `fixes: [SPEC-n]` (this spec fixes a defect in a released spec — escaped-defect metric). Unknown fields ignored. |
 | CT3 | **Sections by path** (exact `##` headings; nothing to say → `n/a — <why>`, never empty). Table below. |
 | CT4 | **R ↔ AC.** Requirements numbered `R1…`; criteria `AC1…`, each cites ≥ 1 existing R; every R has ≥ 1 AC. AC measurable: number + unit, or observable yes/no. |
 | CT5 | **Numbers.** Unit + assumption + how measured. Unknown → `(assumption)` or `not measured`. Never invented market sizes, rates or results. |

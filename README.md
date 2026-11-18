@@ -20,6 +20,8 @@ Just describe the work, or run `/forge:forge` to continue where you left off.
 | `/forge:forge <step> [task#]` | Expert override: `discover` · `spec` · `design` · `architect` · `impl-plan` · `develop` · `test` |
 | `/forge:forge design <SPEC-n \| path \| #issue \| PRD path>` | Design from a spec; external PRDs are normalized into a spec with open gaps |
 | `/forge:forge develop <SPEC-n.TASKk \| #issue \| batch>` | Build one item, the item behind an issue, or all ready items |
+| `/forge:forge SPEC-n` · `#issue` [`until <step>` \| `only <step>`] | Continue that task through design → plan → build → quality gate → review → readiness, stopping at approval points |
+| `/forge:forge status` | One line per open task with readiness state |
 | `/forge:forge publish` | Publish work items as tracker issues (preview first, idempotent, resumable) |
 | `/forge:forge review <spec\|design\|arch\|test\|code> [target]` | Review task#, path, branch or PR |
 | `/forge:forge onboard` · `ai-readiness` | Codebase understanding + health · AI-assisted-dev audit |
@@ -43,6 +45,12 @@ python3 plugins/forge/skills/forge/scripts/spec_check.py check <spec.md> [--requ
 python3 plugins/forge/skills/forge/scripts/spec_check.py gaps <doc.md>          # what an external doc lacks
 python3 plugins/forge/skills/forge/scripts/spec_check.py plan <task dir> [--json] # work items: coverage, deps, batches
 ```
+
+## Quality
+
+The test stage detects the project's own checks (`scripts/quality_detect.py`: npm scripts, CI, tool config) and runs the relevant ones; anything not run is reported with the reason. Code review covers three perspectives — static, functional, architecture — fixes blockers (max 3 rounds) and writes a readiness report that separates implemented, reviewed, verified and release-ready. Language/DB profiles: `plugins/forge/skills/forge/rules/profiles/`. Rules: `rules/quality.md`.
+
+Optional project settings in `CLAUDE.md`: `forge-approvals: combined` · `forge-review: independent` (Phase 2) · `forge-coverage: <n>` · `forge-fix-rounds: <n>`.
 
 ## Trackers
 

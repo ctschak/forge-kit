@@ -108,6 +108,10 @@ def check(path, require_approved=False, pinned_rev=None):
         err("ERROR front matter: id %s does not match task folder `%s` → SPEC-<n> = folder number"
             % (sid, folder))
 
+    for ref in [x.strip() for x in front.get("fixes", "").strip("[]").split(",") if x.strip()]:
+        if not ID_RE.match(ref):
+            err("ERROR front matter: fixes `%s` invalid → `[SPEC-<n>]`" % ref)
+
     rev = front.get("revision", "")
     if rev and not rev.isdigit():
         err("ERROR front matter: revision `%s` not a number" % rev)

@@ -7,9 +7,11 @@ Verdict: <approve | changes needed>
 <!-- 2–4 bullets: overall state, biggest risk -->
 
 ## Findings
-| # | Severity | Where | Issue | Fix |
-|---|---|---|---|---|
-| 1 | high / med / low | `path:line` or §section | | |
+| ID | Perspective | Severity | Where | Evidence | Ref | Impact | Fix | Verify |
+|---|---|---|---|---|---|---|---|---|
+| F1 | static / functional / architecture | critical / high / medium / low | `path:line` or § | tool output / test / code quote | R/AC/§ | | | command |
+
+<!-- critical/high = blocker. Code review: one section per perspective when useful. -->
 
 ## Checked
 <!-- what was reviewed against: R#/UC#, rules files, domain pack -->

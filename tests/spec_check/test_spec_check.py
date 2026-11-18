@@ -117,6 +117,12 @@ class SpecCheckTest(unittest.TestCase):
     def test_unsupported_contract_version(self):
         self.assertError(build(front={"contract": "2"}), "contract")
 
+    def test_fixes_field_accepted(self):
+        self.assertOk(build(front={"fixes": "[SPEC-3]"}))
+
+    def test_fixes_field_invalid(self):
+        self.assertError(build(front={"fixes": "[bug-3]"}), "fixes")
+
     # --- sections ---
     def test_missing_section_standard(self):
         self.assertError(build(drop=("KPIs",)), "KPIs")
