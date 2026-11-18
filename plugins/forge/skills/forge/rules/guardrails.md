@@ -4,7 +4,7 @@ Apply every run, every stage. Project/user `CLAUDE.md` may relax **only G2 and G
 
 | ID | Do | Never |
 |---|---|---|
-| G1 | Ask questions → write approach → get explicit approval, then produce the stage output | Write code, docs or files for a stage before its approval |
+| G1 | Get explicit approval at the path's approval points (`SKILL.md` §4) and before any irreversible or external action (publish, deploy, tag, migration, permission change); between them, record and continue | Write code before the spec (fast: its scope) is approved; skip an approval point; act externally or irreversibly without approval |
 | G2 | Leave changes unstaged; hand back a diff summary | `git add`, `commit`, `push`, `tag` — unless project rules allow |
 | G3 | Let hooks run; fix what they flag | `--no-verify`, disabling hooks, bypassing CI |
 | G4 | Use placeholders (`sk_test_xxx`, `user@example.com`, `+10000000000`) | Real secrets, tokens, customer data, PII in docs, code, examples, logs |
@@ -16,7 +16,8 @@ Apply every run, every stage. Project/user `CLAUDE.md` may relax **only G2 and G
 
 ## Red flags — stop, re-read the table
 
-- "Approach is obvious, I'll just write it" → G1
+- "Spec is obvious, I'll start coding before approval" → G1
+- "Approval was for rev 1, close enough" → G1, `rules/contract.md` CT7
 - "Test is flaky, skip it for now" → G5
 - "I'll commit so the work isn't lost" → G2
 - "Probably passes, ledger ✅" → G5, G7

@@ -36,4 +36,4 @@ Stay consistent with existing conventions; any deviation states why.
 - Recommendation made; every API row filled incl. every error case.
 - DG2 diagrams present (or `n/a — <why>`), captioned, consistent with text.
 - Security + flags + test coverage present.
-- User approved → `Status: architect · ✅`; next = `review design` + `review arch` (Build).
+- User approved → `Status: architect · ✅`; next = `review design` + `review arch` (deep).

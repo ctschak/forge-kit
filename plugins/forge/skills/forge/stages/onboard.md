@@ -21,7 +21,7 @@ Project-level. Output: `<root>/understanding.md` + `<root>/health.md`. Templates
 | Conventions | naming, layering, error handling, logging |
 | Existing docs | README, docs/, ADRs, CLAUDE.md |
 
-3. **Ask** only what code can't answer: business purpose, users, current pain, roadmap, known incidents. One question per message; "skip" accepted.
+3. **Ask** only what code can't answer: business purpose, users, current pain, roadmap, known incidents. Questions per SKILL.md §6.1 (batched, with defaults); "skip" accepted.
 4. **Write `understanding.md`** — every template section filled or omitted; module map with real paths; main flows with entry `file:line`.
 5. **Write `health.md`** — every finding has severity (high/med/low), `file:line`, why it matters, direction. Rank by severity. Cover: gaps, risks (security per `rules/security-checklist.md`, data loss, scale, single points of failure), tech debt, test coverage per area.
 6. **Run** `stages/ai-readiness.md` → fills `## AI-assisted development` in `health.md`.

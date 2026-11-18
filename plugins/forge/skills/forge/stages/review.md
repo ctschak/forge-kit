@@ -1,6 +1,6 @@
 # Stage: review
 
-`/forge review <design|arch|test|code> [target]`. Output: `tasks/NN_<slug>/reviews/YYYY-MM-DD_<type>_review.md` from `templates/review.md`. Target outside a task (path, branch, PR) → `<root>/reviews/YYYY-MM-DD_<type>_<slug>_review.md`.
+`/forge review <spec|design|arch|test|code> [target]`. Output: `tasks/NN_<slug>/reviews/YYYY-MM-DD_<type>_review.md` from `templates/review.md`. Target outside a task (path, branch, PR) → `<root>/reviews/YYYY-MM-DD_<type>_<slug>_review.md`.
 
 ## Target
 
@@ -15,6 +15,7 @@
 
 | Type | Checks |
 |---|---|
+| spec | validator clean (`scripts/spec_check.py`); objective has success + failure criteria; evidence dated/sourced, assumptions marked, no invented numbers (CT5); MVP slice is the smallest that tests the value; non-goals explicit; every AC measurable; KPIs have baseline/target/how measured (standard, deep); telemetry has no PII |
 | design | problem has evidence; Solving exactly is precise; every R# testable; scope has explicit outs; UC# ↔ R# mapped; open questions resolved or owned; `rules/diagrams.md` DG2 design set present, problem understandable from diagram + `Read:` alone |
 | arch | approach choice justified vs alternatives; `rules/diagrams.md` DG2 architect set present, DG3 captions, DG7 diagram ↔ text agree; data model + migrations reversible; APIs meet `rules/api-standards.md` API1–API5 incl. every error case; `rules/security-checklist.md` items answered; flags have kill switch + removal; failure modes + observability; consistent with `understanding.md`; domain pack items |
 | test | every R#/UC# covered; negative/edge/authz cases; levels per TS10; `rules/test-standards.md` TS1–TS11; tests actually run (evidence) |

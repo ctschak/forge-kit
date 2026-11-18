@@ -17,8 +17,9 @@ Repo holds Claude Code plugins. `forge` skill lives at `plugins/forge/skills/for
 
 ## Design + plan
 
-- Spec: `docs/specs/2026-11-14-forge-design.md`
-- Build plan + progress: `docs/plans/2026-11-14-forge-v0.1-plan.md` (checkboxes)
+- Spec: `docs/specs/2026-11-14-forge-design.md` (v0.1) · product stages: `docs/2026-11-18-forge-product-design.md`
+- Build plan + progress: `docs/plans/2026-11-14-forge-v0.1-plan.md` · `docs/2026-11-18-forge-product-slice1-plan.md` (checkboxes)
+- Demo scenarios + results: `evals/`. Validator tests: `tests/spec_check/` (run by `scripts/check.sh`).
 
 ## Git
 

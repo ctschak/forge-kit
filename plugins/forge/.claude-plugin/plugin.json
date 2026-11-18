@@ -1,7 +1,7 @@
 {
   "name": "forge",
-  "version": "0.1.2",
-  "description": "Software work lifecycle: onboard a codebase, audit AI-readiness, then design, architect, plan, develop, test and review any task with resumable docs.",
+  "version": "0.2.0",
+  "description": "Idea to verified software: discover, spec (validated product-engineering contract), design, plan, build, test and review on fast, standard or deep paths, with resumable docs.",
   "author": {
     "name": "Chakravarthy Ravichandran"
   },

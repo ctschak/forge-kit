@@ -1,6 +1,6 @@
 # forge-kit
 
-Claude Code plugin marketplace. First plugin: **forge** — one skill that runs software work like a senior architect: understand → question → document approach → build in verified steps → review. Resumable across sessions via docs.
+Claude Code plugin marketplace. First plugin: **forge** — one skill that takes work from idea to verified software: decide whether to build → validated spec → design → build in verified steps → review. Forge works out the next step from the docs and runs it, stopping only for decisions and approvals. Resumable across sessions.
 
 ## Install
 
@@ -9,24 +9,35 @@ Claude Code plugin marketplace. First plugin: **forge** — one skill that runs 
 /plugin install forge@forge-kit
 ```
 
-## Commands
+## Use
+
+Just describe the work, or run `/forge:forge` to continue where you left off.
 
 | Command | Does |
 |---|---|
-| `/forge:forge` | Existing code, no docs → onboard. Open tasks → list, resume chosen one. Empty repo → ask what to build. |
-| `/forge:forge new <desc>` | Size task (Fix / Change / Build), create task folder, start first stage |
-| `/forge:forge <stage> [task#]` | `design` · `architect` · `impl-plan` · `develop` · `test` · `review` |
-| `/forge:forge review <design\|arch\|test\|code> [target]` | Review task#, path, branch or PR |
-| `/forge:forge onboard` | Re-run codebase understanding + health |
-| `/forge:forge ai-readiness` | Audit missing AI-assisted-dev elements |
+| `/forge:forge` | Continue: shows `task · path · done → next` and runs the next step. Existing code, no docs → onboard first. |
+| `/forge:forge <request>` or `new <desc>` | Pick a path, create the task, start discover (or spec for fast) |
+| `/forge:forge <step> [task#]` | Expert override: `discover` · `spec` · `design` · `architect` · `impl-plan` · `develop` · `test` |
+| `/forge:forge review <spec\|design\|arch\|test\|code> [target]` | Review task#, path, branch or PR |
+| `/forge:forge onboard` · `ai-readiness` | Codebase understanding + health · AI-assisted-dev audit |
 
-## Sizing
+## Paths
 
-| Size | Stages |
-|---|---|
-| Fix | design (lite) → develop → test → review(code) |
-| Change | design → impl-plan → develop → test → review(code) |
-| Build | design → architect → review(design+arch) → impl-plan → develop → test → review(test+code) |
+| Path | When | Steps | Approvals |
+|---|---|---|---|
+| fast | clear, reversible, low-risk | spec → develop → test → review | spec |
+| standard | feature | discover → spec → design → impl-plan → develop → test → review | spec · design |
+| deep | uncertain, irreversible, security / cross-system | discover → spec → design → architect → reviews → impl-plan → develop → test → review → rollout | spec · design+arch · plan · rollout |
+
+Old sizes Fix / Change / Build still work (= fast / standard / deep).
+
+## Spec contract
+
+Each task has one spec (`SPEC-<n>` = task number) that engineering builds from without restating it: objective with success/failure criteria, scope, non-goals, requirements `R`, measurable acceptance criteria `AC`, plus users, KPIs, telemetry and priorities on standard/deep. Status: proposed → approved → implemented → verified → released, or dropped ("don't build"). Rules: `plugins/forge/skills/forge/rules/contract.md`. Validator:
+
+```
+python3 plugins/forge/skills/forge/scripts/spec_check.py check <spec.md> [--require-approved] [--rev N]
+```
 
 ## Docs layout (in each project)
 
@@ -43,6 +54,7 @@ forge-docs: ~/path/outside/repo
   tasks/
     index.md                ← all tasks + status
     01_<slug>/
+      YYYY-MM-DD_<slug>_spec.md      ← SPEC-<n>
       YYYY-MM-DD_<slug>_design.md
       impl-tasks/ledger.md, 01_<step>.md, 02_<step>.md …
       reviews/YYYY-MM-DD_<type>_review.md
@@ -59,8 +71,10 @@ forge-docs: ~/path/outside/repo
 plugins/forge/
   .claude-plugin/plugin.json
   skills/forge/  SKILL.md · rules/ · stages/ · domains/ · templates/
-docs/specs/ · docs/plans/     ← design + build plan for forge itself
-scripts/check.sh              ← structural checks
+docs/                         ← designs + build plans for forge itself
+evals/                        ← demo scenarios + results
+tests/spec_check/             ← validator tests
+scripts/check.sh              ← structural checks + validator tests
 ```
 
 ## License

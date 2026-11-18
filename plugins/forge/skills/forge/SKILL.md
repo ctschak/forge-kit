@@ -1,30 +1,30 @@
 ---
 name: forge
-description: Use when starting, resuming, evaluating, designing, architecting, planning, building, testing or reviewing software work in a project — kicking off a feature or fix, onboarding onto an unfamiliar codebase, auditing AI-assisted-dev setup, or continuing work tracked in docs/forge.
-argument-hint: "[new <desc> | design | architect | impl-plan | develop | test | review <design|arch|test|code> [target] | onboard | ai-readiness] [task#]"
+description: Use when turning an idea, feature request, bug or existing product into shipped, verified software — evaluating whether to build, writing a spec, MVP scoping, designing, architecting, planning, building, testing or reviewing work in a project; onboarding onto an unfamiliar codebase; auditing AI-assisted-dev setup; or continuing work tracked in docs/forge.
+argument-hint: "[<request> | new <desc> | discover | spec | design | architect | impl-plan | develop | test | review <spec|design|arch|test|code> [target] | onboard | ai-readiness] [task#]"
 ---
 
 # forge
 
-Senior-architect workflow: understand → question → write approach → approval → build in verified steps → review. State lives in docs so any session resumes.
+Product + engineering delivery: idea → validated spec → verified code, fast and safe. Forge owns the process: works out the next step from the docs, runs it, and stops only where a decision or approval is needed. State lives in docs so any session resumes.
 
 ## 1. Always
 
 - Load `rules/guardrails.md` and `rules/doc-style.md` first, every run. Guardrails are hard.
 - Precedence: user/project `CLAUDE.md` > forge rules, except guardrails (only G2, G9 relaxable).
+- Least process that keeps quality: no extra docs, questions or ceremonies the path doesn't need.
 
 ## 2. Resolve docs root
 
 1. Project `CLAUDE.md` has line `forge-docs: <path>` → use it; expand `~`; relative = from repo root.
-2. Else → `docs/forge/` in repo root.
-3. Root dir missing → say which path, confirm before creating.
-4. No `forge-docs:` line, first write → ask one question: "Docs in `docs/forge/` (default) or another path?" Default chosen → no `CLAUDE.md` change. Other path chosen → then offer to add `forge-docs: <path>` to project `CLAUDE.md` (create file if missing).
+2. Else → `docs/forge/` in repo root. Create it on first write; say so in one line ("Docs in `docs/forge/` — say if you want another path"). Other path chosen later → move docs, offer `forge-docs:` line in project `CLAUDE.md`.
 
 Layout under root:
 ```
 understanding.md · health.md
 tasks/index.md
-tasks/NN_<slug>/YYYY-MM-DD_<slug>_design.md
+tasks/NN_<slug>/YYYY-MM-DD_<slug>_spec.md        ← product: SPEC-<NN>, rules/contract.md
+tasks/NN_<slug>/YYYY-MM-DD_<slug>_design.md      ← engineering (standard, deep)
 tasks/NN_<slug>/impl-tasks/ledger.md, NN_<step>.md
 tasks/NN_<slug>/reviews/YYYY-MM-DD_<type>_review.md
 ```
@@ -35,55 +35,57 @@ tasks/NN_<slug>/reviews/YYYY-MM-DD_<type>_review.md
 |---|---|
 | `onboard` | `stages/onboard.md` |
 | `ai-readiness` | `stages/ai-readiness.md` |
-| `new <desc>` | §4 then first stage of size |
+| `new <desc>` or free-text request for new work | §4 |
+| `discover` · `spec` | `stages/<name>.md` on active task |
 | `design` · `architect` · `impl-plan` · `develop` · `test` | `stages/<name>.md` on active task |
 | `review <type> [target]` | `stages/review.md` |
-| none | decision below |
+| none | §5 next step |
 
-No args — first match wins:
-1. Repo has code, no `understanding.md` → `stages/onboard.md`.
-2. Repo empty → ask what to build → §4.
-3. `tasks/index.md` has rows not `✅` → list them (#, task, stage, status), ask which to resume — never pick for the user — → §5.
-4. All done / no tasks → show index summary, ask: new task, review, or refresh onboard.
+Experts may name any stage or path explicitly — that overrides the inferred step.
 
-`[task#]` given → that task is active. None given + exactly one open task → that one; several → ask.
+`[task#]` given → that task is active. None given + exactly one open task → that one; several → one line each (task, path, step, next), user picks.
 
-## 4. New task
+No tasks yet: repo has code, no `understanding.md`, request needs code knowledge → `stages/onboard.md` first. Empty repo, no request → ask what to build.
 
-1. Ask enough to size it, then propose size:
+## 4. New task + paths
 
-| Size | Signal | Stages |
-|---|---|---|
-| Fix | defect, known area | design (lite) → develop → test → review code |
-| Change | small feature, ≤ few files, no new contract | design → impl-plan → develop → test → review code |
-| Build | new feature/system/integration/API/data model | design → architect → review design+arch → impl-plan → develop → test → review test+code |
+1. Pick the path from the request and evidence; state it in one line with the reason. User may override. Escalate or simplify later with a one-line reason.
 
-2. User confirms or overrides size.
-3. NN = highest existing `tasks/NN_*` number + 1 (01 if none), zero-padded. Never reuse a number, even if a folder was deleted — check `index.md` rows too.
-4. Create `tasks/NN_<kebab-slug>/`, design file from `templates/design.md`, add row to `tasks/index.md` (create from `templates/tasks-index.md` if missing).
-5. Start first stage.
+| Path | When | Steps | Approval points (G1) |
+|---|---|---|---|
+| fast | clear, reversible, low-risk (defect, small tweak) | spec (fast) → develop → test → review code | spec |
+| standard | feature | discover (lite; skip if problem + user clear) → spec → design → impl-plan → develop → test → review code | spec · design |
+| deep | high uncertainty, irreversible migration, security or cross-system risk | discover → spec → design → architect → review design+arch → impl-plan → develop → test → review test+code → staged rollout | spec · design+arch · plan · rollout |
 
-## 5. Resume
+Old sizes still accepted: Fix = fast, Change = standard, Build = deep.
 
-1. Read `tasks/index.md` → active task row.
-2. Read design file `Status:` line.
-3. `impl-tasks/ledger.md` exists → read `Next:` + `Blockers:`.
-4. Load only the stage file for the current stage + the files that stage needs.
-5. Tell user in ≤ 3 lines: task, stage, next step. Continue on confirmation.
+2. NN = highest existing `tasks/NN_*` number + 1 (01 if none), zero-padded. Never reuse a number — check `index.md` rows too. Spec ID = `SPEC-<NN as integer>`.
+3. Create `tasks/NN_<kebab-slug>/`, spec from `templates/spec.md`, row in `tasks/index.md` (create from `templates/tasks-index.md` if missing; set `Started`).
+4. Start first step: `discover` (standard, deep) or `spec` (fast).
+
+Aims, not promises: fast in hours; standard MVP slice usable in 2–3 days, production-ready ≤ 2 weeks when scoped so. Doesn't fit → cut scope or report blocker; never skip quality. Spike only when a specific question blocks a decision: question + time box + resulting decision.
+
+## 5. Next step (resume and hand-off)
+
+1. Read `tasks/index.md` → active task; spec `status`; design `Status:` line; `impl-tasks/ledger.md` `Next:` + `Blockers:`. Docs, not chat memory.
+2. Next step = first unfinished step of the task's path (§4). Spec `dropped` → task closed.
+3. Print one line: `SPEC-7 Lesson reminders · standard · spec approved → next: design (starting)`.
+4. Run it. Stop only for: approval point, decision-changing ambiguity, irreversible/external action, missing authority, blocker.
+5. Load only that stage file + the files it needs.
 
 If `understanding.md` commit SHA is ≥ 30 commits behind `HEAD` (`git rev-list --count <sha>..HEAD`), offer `onboard` refresh first.
 
 ## 6. Every stage
 
-1. **Questions first.** One question per message. Anchor in specifics (a real scenario, a file, a failure). Play back understanding in short chunks; mark guesses `(assumption)`. User says "skip" → proceed on stated defaults, list them.
+1. **Questions only when the answer changes the decision.** Batch related ones (≤ 3 per message), offer a recommended default for each. Otherwise state `(assumption)` and continue; list assumptions at the next approval point. Anchor in specifics (a real scenario, a file, a number).
 2. **Write** the stage's output into its file, per `rules/doc-style.md`.
-3. **Approval.** Ask user to approve. Changes requested → revise, ask again. Next stage starts only after approval (G1).
-4. **Record.** Update design `Status:` line, ledger (if any), `tasks/index.md` row (stage, status, date). Append one `Log` line.
-5. **Hand off.** Name the next stage per size; user can jump or stop.
+3. **Approval** only at the path's approval points (§4) and before irreversible/external actions (G1). Changes requested → revise, ask again.
+4. **Record.** Update spec `status` / design `Status:` line, ledger (if any), `tasks/index.md` row (step, status, date). Append one `Log` line.
+5. **Continue.** Print the §5 line and start the next step; user can redirect or stop.
 
 ## 7. Domain packs
 
-Task touches the domain → design + architect + review consult:
+Task touches the domain → discover + spec + design + architect + review consult:
 - CRM, leads, contacts, pipelines → `domains/crm.md`
 - WhatsApp/SMS/voice bots, AI receptionists, conversational agents → `domains/voice-message-agents.md`
 - Catalog, cart, checkout, orders, payments → `domains/ecommerce.md`

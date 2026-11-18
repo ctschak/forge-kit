@@ -8,7 +8,7 @@
     {
       "name": "forge",
       "source": "./plugins/forge",
-      "description": "Software work lifecycle: onboard a codebase, audit AI-readiness, then design, architect, plan, develop, test and review any task with resumable docs."
+      "description": "Idea to verified software: discover, spec (validated product-engineering contract), design, plan, build, test and review on fast, standard or deep paths, with resumable docs."
     }
   ]
 }

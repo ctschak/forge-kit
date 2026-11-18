@@ -74,6 +74,7 @@ fi
 # 4b. Every routed stage/rule/template exists (SKILL.md routes some via patterns)
 EXPECTED="stages/onboard.md stages/ai-readiness.md stages/design.md stages/architect.md
 stages/impl-plan.md stages/develop.md stages/test.md stages/review.md
+stages/discover.md stages/spec.md rules/contract.md templates/spec.md scripts/spec_check.py
 rules/guardrails.md rules/doc-style.md rules/api-standards.md rules/code-standards.md
 rules/test-standards.md rules/security-checklist.md rules/diagrams.md
 templates/design.md templates/impl-task.md templates/ledger.md templates/review.md
@@ -82,6 +83,15 @@ domains/crm.md domains/voice-message-agents.md domains/ecommerce.md"
 missing=0
 for e in $EXPECTED; do [ -f "$SKILL_DIR/$e" ] || { fail "expected file missing: $e"; missing=1; }; done
 [ "$missing" -eq 0 ] && pass "all expected files present"
+
+# 4c. Validator unit tests
+log=$(mktemp)
+if python3 -m unittest discover -s "$ROOT/tests/spec_check" >"$log" 2>&1; then
+  pass "spec_check tests ($(grep -o 'Ran [0-9]* tests' "$log"))"
+else
+  fail "spec_check tests"; cat "$log"
+fi
+rm -f "$log"
 
 # 5. No placeholders left in skill files
 if [ -d "$SKILL_DIR" ]; then

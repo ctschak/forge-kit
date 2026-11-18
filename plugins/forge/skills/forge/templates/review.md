@@ -1,6 +1,6 @@
 # <Type> review — <task / target>
 
-Type: <design|arch|test|code> · Target: <task NN / path / branch / PR #> · Date: YYYY-MM-DD
+Type: <spec|design|arch|test|code> · Target: <task NN / path / branch / PR #> · Date: YYYY-MM-DD
 Verdict: <approve | changes needed>
 
 ## Summary

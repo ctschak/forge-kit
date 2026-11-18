@@ -1,9 +1,9 @@
 # <Title>
 
 Status: <stage> · <⬜|🔄|✅|⛔> · YYYY-MM-DD
-Size: <Fix|Change|Build> · Task: NN · Owner: <name>
+Path: <fast|standard|deep> · Task: NN · Spec: SPEC-<n> @ rev <N> (if spec exists) · Owner: <name>
 
-<!-- Fix size keeps: Problem, Solving exactly, Detailed design (before/after), Test coverage. Omit the rest. -->
+<!-- Spec exists → Problem → Use cases = one-line links to spec (stages/design.md). Legacy Fix keeps: Problem, Solving exactly, Detailed design (before/after), Test coverage. Omit the rest. -->
 <!-- design stage owns Problem → Use cases. architect stage owns Approaches → Feature flags. -->
 
 <!-- Diagrams: rules/diagrams.md. Every diagram gets a **Read:** caption (2–4 plain bullets). -->

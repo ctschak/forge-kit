@@ -1,6 +1,6 @@
 # Stage: develop
 
-Input: approved design + `impl-tasks/` (Change/Build) or design Detailed design (Fix). Apply `rules/code-standards.md`.
+Input: approved design + `impl-tasks/` (standard, deep) or spec `## Fix` / design Detailed design (fast). Apply `rules/code-standards.md`.
 
 ## Loop — per ledger step
 
@@ -17,9 +17,9 @@ Input: approved design + `impl-tasks/` (Change/Build) or design Detailed design 
 
 A row reaches `✅` only with `Verified by` filled from a command actually run this session (G5, G7).
 
-## Fix size (no ledger)
+## Fast path (no ledger)
 
-Apply design before/after → run failing test → passes → run related suite → record result in design `Status:` + index.
+Apply spec `## Fix` (or design) before/after → run failing test → passes → run related suite → record result in design `Status:` + index.
 
 ## Also
 
@@ -28,4 +28,4 @@ Apply design before/after → run failing test → passes → run related suite 
 
 ## Done when
 
-All ledger rows `✅` with evidence; index stage = `develop ✅`; next = test.
+All ledger rows `✅` with evidence; spec status `implemented` (if spec exists); index stage = `develop ✅`; next = test (starts automatically).
