@@ -32,7 +32,7 @@ Read first: the request; supplied files (briefs, feedback, data); `understanding
 
    Include: target persona, job to be done, value vs workaround, MVP idea (much smaller than the request), non-goals. Numbers carry unit + assumption + how measured.
 
-6. **Show ≤ 15 lines**: verdict, why (top 3 facts), MVP idea, what's out, riskiest assumption + test. User agrees or overrides.
+6. **Show ≤ 15 lines**: verdict, why (top 3 facts), MVP idea, what's out, riskiest assumption + test, then `Assumed:` lines (statements the user can correct — not questions). End with exactly one ask: agree with the verdict, or override.
 
 ## Done when
 

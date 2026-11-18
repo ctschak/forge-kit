@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.1 — 2026-11-18
+
+- discover ends with one ask (agree / override verdict); assumptions shown as `Assumed:` statements, not questions (eval F1: D3 questions 3 → 1).
+- Path `deep` = hard to undo / wide blast radius; demand uncertainty stays `standard` via discover "test first"; new idea with small reversible MVP = `standard` (eval F4).
+
 ## 0.2.0 — 2026-11-18
 
 Product stages inside forge (design: `docs/2026-11-18-forge-product-design.md`, Slice 1).

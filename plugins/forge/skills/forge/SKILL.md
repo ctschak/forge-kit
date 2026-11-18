@@ -54,8 +54,8 @@ No tasks yet: repo has code, no `understanding.md`, request needs code knowledge
 | Path | When | Steps | Approval points (G1) |
 |---|---|---|---|
 | fast | clear, reversible, low-risk (defect, small tweak) | spec (fast) → develop → test → review code | spec |
-| standard | feature | discover (lite; skip if problem + user clear) → spec → design → impl-plan → develop → test → review code | spec · design |
-| deep | high uncertainty, irreversible migration, security or cross-system risk | discover → spec → design → architect → review design+arch → impl-plan → develop → test → review test+code → staged rollout | spec · design+arch · plan · rollout |
+| standard | feature; new product idea with a small, reversible MVP | discover (lite; skip if problem + user clear) → spec → design → impl-plan → develop → test → review code | spec · design |
+| deep | hard to undo or wide blast radius: data migration, security/auth, money, cross-system contracts. Not for demand uncertainty — discover's "test first" handles that | discover → spec → design → architect → review design+arch → impl-plan → develop → test → review test+code → staged rollout | spec · design+arch · plan · rollout |
 
 Old sizes still accepted: Fix = fast, Change = standard, Build = deep.
 
