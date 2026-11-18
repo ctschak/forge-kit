@@ -22,6 +22,8 @@ Product + engineering delivery: idea → validated spec → verified code, fast 
 Layout under root:
 ```
 understanding.md · health.md
+PRD.md                                            ← released behavior only (CT13)
+releases/vX.Y.Z.md                                ← what shipped, when, evidence
 tasks/index.md
 tasks/NN_<slug>/YYYY-MM-DD_<slug>_spec.md        ← product: SPEC-<NN>, rules/contract.md
 tasks/NN_<slug>/YYYY-MM-DD_<slug>_design.md      ← engineering (standard, deep)
@@ -41,6 +43,8 @@ tasks/NN_<slug>/reviews/YYYY-MM-DD_<type>_review.md
 | `develop [SPEC-n.TASKk \| #issue \| batch]` | `stages/develop.md` |
 | `architect` · `impl-plan` · `test` | `stages/<name>.md` on active task |
 | `publish` | `stages/publish.md` (tracker issues) |
+| `prd` | `stages/prd.md` (baseline PRD for an existing product) |
+| `release` | `stages/release.md` (verified specs → release doc → PRD) |
 | `review <type> [target]` | `stages/review.md` |
 | `SPEC-n` · `#issue` | that task → §5 next step |
 | `status` | one line per open task: path, step, readiness state (`templates/readiness.md`) |

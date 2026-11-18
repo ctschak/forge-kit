@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.5.0 — 2026-11-18
+
+Phase 2 (plan `docs/2026-11-18-forge-phase2-plan.md`).
+
+- `prd` stage + `templates/prd.md`: baseline PRD of released behavior for an existing product; `FEAT-n` with evidence levels (verified-prod / exercised-local / code-only / docs-only / not-exercised); report findings marked for re-verification; open questions preserved; baseline tag proposed.
+- `release` stage + `templates/release.md`: verified specs → release doc (planned → released only on user-confirmed rollout) → specs `released` + `released_in` → PRD FEAT `Added by` / `Changed by`; outcome hooks; briefs on request with media/permission rules; tag proposed.
+- Contract CT13 (PRD + releases), CT2 `released_in`.
+- `spec_check.py prd`, `release`, `trace [--json] [--strict]` (+23 tests).
+- Independent review: `forge-review: independent` on deep path → three fresh-context reviewers from `templates/reviewer-brief.md`, findings merged + attributed + re-verified.
+- `scripts/changed_coverage.py` (lcov / Cobertura + `git diff`, +5 tests); QG6 points to it.
+- Evals P1 (baseline PRD), Q10 (release → PRD), Q8 (deep migration, independent review): `evals/results/2026-11-18-phase2.md`.
+
 ## 0.4.0 — 2026-11-18
 
 Adaptive SDLC + quality, Phase 1 (prompt 03; design `docs/2026-11-18-forge-adaptive-sdlc-design.md`).

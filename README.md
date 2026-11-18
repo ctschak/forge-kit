@@ -22,6 +22,8 @@ Just describe the work, or run `/forge:forge` to continue where you left off.
 | `/forge:forge develop <SPEC-n.TASKk \| #issue \| batch>` | Build one item, the item behind an issue, or all ready items |
 | `/forge:forge SPEC-n` · `#issue` [`until <step>` \| `only <step>`] | Continue that task through design → plan → build → quality gate → review → readiness, stopping at approval points |
 | `/forge:forge status` | One line per open task with readiness state |
+| `/forge:forge prd` | Baseline PRD of what the product does today, with evidence level per feature |
+| `/forge:forge release` | Record a release (after you confirm the rollout) and update the PRD |
 | `/forge:forge publish` | Publish work items as tracker issues (preview first, idempotent, resumable) |
 | `/forge:forge review <spec\|design\|arch\|test\|code> [target]` | Review task#, path, branch or PR |
 | `/forge:forge onboard` · `ai-readiness` | Codebase understanding + health · AI-assisted-dev audit |
@@ -50,7 +52,13 @@ python3 plugins/forge/skills/forge/scripts/spec_check.py plan <task dir> [--json
 
 The test stage detects the project's own checks (`scripts/quality_detect.py`: npm scripts, CI, tool config) and runs the relevant ones; anything not run is reported with the reason. Code review covers three perspectives — static, functional, architecture — fixes blockers (max 3 rounds) and writes a readiness report that separates implemented, reviewed, verified and release-ready. Language/DB profiles: `plugins/forge/skills/forge/rules/profiles/`. Rules: `rules/quality.md`.
 
-Optional project settings in `CLAUDE.md`: `forge-approvals: combined` · `forge-review: independent` (Phase 2) · `forge-coverage: <n>` · `forge-fix-rounds: <n>`.
+Optional project settings in `CLAUDE.md`: `forge-approvals: combined` · `forge-review: independent` (deep path: three fresh-context reviewers — thorough, but costs several extra agent runs) · `forge-coverage: <n>` · `forge-fix-rounds: <n>`.
+
+Changed-line coverage: `python3 plugins/forge/skills/forge/scripts/changed_coverage.py --report <lcov.info|coverage.xml> --base origin/main --target 80`.
+
+## PRD and releases
+
+`<docs root>/PRD.md` describes released behavior only; planned work lives in specs. `releases/vX.Y.Z.md` records what shipped once you confirm the rollout, and only then is the PRD updated. Check with `spec_check.py prd`, `release`, `trace`.
 
 ## Trackers
 

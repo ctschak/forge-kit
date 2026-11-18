@@ -29,7 +29,9 @@
 | **functional** | every spec AC has a passing test that would fail without the change (QG7); authz + tenant boundaries; edge + error cases; regressions; user journey; ledger `✅` rows have `Verified by` (G5); no scope creep (G8) | spec, tests, ledger |
 | **architecture** | contracts + compatibility; modularity, coupling; failure handling, retries, idempotency; performance; data integrity + migrations (`rules/profiles/database.md`); security on changed surface (`rules/security-checklist.md`); rollout + rollback; matches design + evolution path | design, code |
 
-Depth by path: fast / standard → one pass, one section per perspective. Deep → three separate passes; with `forge-review: independent` in project `CLAUDE.md`, each pass is a fresh-context reviewer given the diff, spec, design and rules files only (relaxes G9 for review).
+Depth by path: fast / standard → one pass, one section per perspective. Deep → three separate passes.
+
+**Independent reviewers** (deep path + `forge-review: independent` in project `CLAUDE.md`; relaxes G9 for review only): spawn three fresh-context reviewers in parallel, one per perspective, each given only `templates/reviewer-brief.md` filled in — diff command, spec, design, ledger, rules paths; never your own conclusions. Merge their tables: same `file:line` + same issue → one finding (keep highest severity, note "raised by n reviewers"); re-number F1…; verify each merged finding yourself before it counts (drop ones the code disproves, say so). Record in the review file which findings came from which reviewer.
 
 ## Steps
 

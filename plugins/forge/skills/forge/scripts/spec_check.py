@@ -5,6 +5,9 @@ Usage:
   python3 spec_check.py check <spec.md> [--require-approved] [--rev N]
   python3 spec_check.py gaps <doc.md> [--path fast|standard|deep]      # report only, exit 0
   python3 spec_check.py plan <task dir> [--json]                       # work items, batches, critical path
+  python3 spec_check.py prd <root>/PRD.md                              # released behavior only, FEAT evidence
+  python3 spec_check.py release <root>/releases/vX.Y.Z.md              # specs, revs, readiness, PRD
+  python3 spec_check.py trace <root> [--json] [--strict]               # R → item → evidence → release → PRD
 
 Exit: 0 ok (or legacy doc skipped) · 1 errors.
 """
@@ -387,6 +390,244 @@ def plan(task_dir, as_json=False):
     return 0
 
 
+EVIDENCE = ("verified-prod", "exercised-local", "code-only", "docs-only", "not-exercised")
+SEMVER_RE = re.compile(r"^v?(\d+\.\d+\.\d+)$")
+SPEC_REF_RE = re.compile(r"\bSPEC-([1-9][0-9]*)\b")
+
+
+def read_front(path):
+    with open(path, encoding="utf-8") as fh:
+        text = fh.read()
+    front, sections = parse(text)
+    return front or {}, sections, text
+
+
+def load_specs(root):
+    """{SPEC-id: {front, sections, task_dir, path}} for contract specs under <root>/tasks/."""
+    out = {}
+    tdir = os.path.join(root, "tasks")
+    for d in sorted(os.listdir(tdir)) if os.path.isdir(tdir) else []:
+        full = os.path.join(tdir, d)
+        if not os.path.isdir(full):
+            continue
+        for f in sorted(os.listdir(full)):
+            if f.endswith("_spec.md"):
+                front, sections, _ = read_front(os.path.join(full, f))
+                if front.get("contract") and front.get("id"):
+                    out[front["id"]] = {"front": front, "sections": sections, "task_dir": full,
+                                        "path": os.path.join(full, f)}
+    return out
+
+
+def ver(v):
+    m = SEMVER_RE.match((v or "").strip())
+    return m.group(1) if m else None
+
+
+def prd_features(text):
+    """Parse `## FEAT-n name` sections → {n: {name, evidence, reqs, cites}} plus order list."""
+    feats, order, cur = {}, [], None
+    for line in text.splitlines():
+        m = re.match(r"^##\s+FEAT-([1-9][0-9]*)\s+(.*?)\s*$", line)
+        if m:
+            cur = int(m.group(1))
+            order.append(cur)
+            feats.setdefault(cur, {"name": m.group(2), "evidence": None, "reqs": [], "cites": []})
+            continue
+        if line.startswith("## "):
+            cur = None
+            continue
+        if cur is None:
+            continue
+        e = re.match(r"^\s*Evidence:\s*([A-Za-z-]+)", line)
+        if e:
+            feats[cur]["evidence"] = e.group(1)
+        for r in re.findall(r"^\s*(?:[-*]|\|)\s*\**FEAT-([0-9]+)\.R([0-9]+)\b", line):
+            feats[cur]["reqs"].append((int(r[0]), int(r[1])))
+        c = re.match(r"^\s*(?:Added|Changed) by:\s*(.*)$", line)
+        if c:
+            feats[cur]["cites"] += ["SPEC-%s" % n for n in SPEC_REF_RE.findall(c.group(1))]
+    return feats, order
+
+
+def prd(path):
+    errors = []
+    err = errors.append
+    front, _, text = read_front(path)
+    for f in ("contract", "type", "revision", "status", "source_rev"):
+        if not front.get(f):
+            err("ERROR front matter: `%s` missing" % f)
+    if front.get("type") and front["type"] != "prd":
+        err("ERROR front matter: type `%s` → `prd`" % front["type"])
+    if front.get("status") and front["status"] not in ("proposed", "approved"):
+        err("ERROR front matter: status `%s` → proposed or approved" % front["status"])
+    feats, order = prd_features(text)
+    if not feats:
+        err("ERROR PRD: no `## FEAT-<n> <name>` sections")
+    for n in sorted({x for x in order if order.count(x) > 1}):
+        err("ERROR FEAT-%d: defined more than once → IDs are unique, never reused" % n)
+    specs = load_specs(os.path.dirname(os.path.abspath(path)))
+    seen_reqs = set()
+    for n in sorted(feats):
+        f = feats[n]
+        if not f["evidence"]:
+            err("ERROR FEAT-%d: no `Evidence:` line → one of %s" % (n, ", ".join(EVIDENCE)))
+        elif f["evidence"] not in EVIDENCE:
+            err("ERROR FEAT-%d: evidence `%s` invalid → one of %s" % (n, f["evidence"], ", ".join(EVIDENCE)))
+        for fn, rn in f["reqs"]:
+            if fn != n:
+                err("ERROR FEAT-%d.R%d: defined under FEAT-%d → move it or renumber" % (fn, rn, n))
+            if (fn, rn) in seen_reqs:
+                err("ERROR FEAT-%d.R%d: defined more than once" % (fn, rn))
+            seen_reqs.add((fn, rn))
+        for sid in f["cites"]:
+            if sid not in specs:
+                err("ERROR FEAT-%d: cites %s, not found under tasks/" % (n, sid))
+            elif specs[sid]["front"].get("status") != "released":
+                err("ERROR FEAT-%d: cites %s (status %s) — PRD holds released behavior only (CT13)"
+                    % (n, sid, specs[sid]["front"].get("status")))
+    for e in errors:
+        print(e)
+    if not errors:
+        print("OK PRD rev %s: %d features" % (front.get("revision"), len(feats)))
+    return 1 if errors else 0
+
+
+def release_specs(sections):
+    return [("SPEC-%s" % a, int(b)) for a, b in
+            re.findall(r"\bSPEC-([1-9][0-9]*)\s*@\s*rev\s*([0-9]+)", sections.get(norm("Specs"), ""))]
+
+
+def release(path):
+    errors = []
+    err = errors.append
+    front, sections, _ = read_front(path)
+    root = os.path.dirname(os.path.dirname(os.path.abspath(path)))
+    if front.get("type") != "release":
+        err("ERROR front matter: type `%s` → `release`" % front.get("type"))
+    v = ver(front.get("version"))
+    if not v:
+        err("ERROR front matter: version `%s` → semver X.Y.Z" % front.get("version"))
+    status = front.get("status")
+    if status not in ("planned", "released"):
+        err("ERROR front matter: status `%s` → planned or released" % status)
+    if not front.get("date"):
+        err("ERROR front matter: `date` missing")
+    listed = release_specs(sections)
+    if not listed:
+        err("ERROR `## Specs`: no `SPEC-n @ rev N` lines")
+    specs = load_specs(root)
+    prd_path = os.path.join(root, "PRD.md")
+    cited = set()
+    if os.path.exists(prd_path):
+        with open(prd_path, encoding="utf-8") as fh:
+            for f in prd_features(fh.read())[0].values():
+                cited |= set(f["cites"])
+    for sid, rev in listed:
+        s = specs.get(sid)
+        if not s:
+            err("ERROR %s: not found under tasks/" % sid)
+            continue
+        sf = s["front"]
+        if sf.get("revision") != str(rev):
+            err("ERROR %s: release lists rev %d but spec is rev %s → re-check scope" % (sid, rev, sf.get("revision")))
+        if not [f for f in os.listdir(s["task_dir"]) if f.endswith("_readiness.md")]:
+            err("ERROR %s: no readiness report in %s → run review code first" % (sid, os.path.basename(s["task_dir"])))
+        st = sf.get("status")
+        if status == "planned" and st not in ("verified", "released"):
+            err("ERROR %s: status %s — a release needs verified specs" % (sid, st))
+        if status == "released":
+            if st != "released" or ver(sf.get("released_in")) != v:
+                err("ERROR %s: not marked released in v%s (status %s, released_in %s)"
+                    % (sid, v, st, sf.get("released_in") or "—"))
+            if sid not in cited:
+                err("ERROR %s: PRD has no FEAT `Added by` / `Changed by` %s" % (sid, sid))
+    for e in errors:
+        print(e)
+    if not errors:
+        print("OK release v%s (%s): %d spec(s)" % (v, status, len(listed)))
+    return 1 if errors else 0
+
+
+def ledger_rows(task_dir):
+    p = os.path.join(task_dir, "impl-tasks", "ledger.md")
+    rows = {}
+    if not os.path.exists(p):
+        return rows
+    with open(p, encoding="utf-8") as fh:
+        lines = fh.read().splitlines()
+    col = None
+    for line in lines:
+        if not line.startswith("|"):
+            continue
+        cells = [c.strip() for c in line.strip().strip("|").split("|")]
+        if "Verified by" in cells:
+            col = cells.index("Verified by")
+            continue
+        if col is not None and ITEM_ID_RE.match(cells[0]) and len(cells) > col:
+            rows[cells[0]] = cells[col]
+    return rows
+
+
+def trace(root, as_json=False, strict=False):
+    specs = load_specs(root)
+    rel_by_spec, rdir = {}, os.path.join(root, "releases")
+    for f in sorted(os.listdir(rdir)) if os.path.isdir(rdir) else []:
+        if f.endswith(".md"):
+            front, sections, _ = read_front(os.path.join(rdir, f))
+            for sid, _ in release_specs(sections):
+                rel_by_spec.setdefault(sid, []).append(ver(front.get("version")) or f)
+    prd_by_spec = {}
+    if os.path.exists(os.path.join(root, "PRD.md")):
+        with open(os.path.join(root, "PRD.md"), encoding="utf-8") as fh:
+            for n, f in sorted(prd_features(fh.read())[0].items()):
+                for sid in f["cites"]:
+                    prd_by_spec.setdefault(sid, []).append("FEAT-%d" % n)
+    gaps, report = [], []
+    for sid in sorted(specs, key=lambda x: int(x.split("-")[1])):
+        s = specs[sid]
+        st = s["front"].get("status", "")
+        rs = sorted(defined("R", s["sections"].get(norm("Requirements"), "")))
+        acs = sorted(defined("AC", s["sections"].get(norm("Acceptance criteria"), "")))
+        idir = os.path.join(s["task_dir"], "impl-tasks")
+        items, covered = [], set()
+        for f in sorted(os.listdir(idir)) if os.path.isdir(idir) else []:
+            if re.match(r"^\d+_.+\.md$", f):
+                fr, _, _ = read_front(os.path.join(idir, f))
+                if fr.get("id"):
+                    items.append(fr["id"])
+                    for r in as_list(fr.get("refs")):
+                        m = REF_RE.match(r)
+                        if m:
+                            covered.add((m.group(1), int(m.group(2))))
+        led = ledger_rows(s["task_dir"])
+        if st in APPROVED_OR_LATER and items:
+            gaps += ["%s: R%d has no work item" % (sid, n) for n in rs if ("R", n) not in covered]
+            gaps += ["%s: AC%d has no work item" % (sid, n) for n in acs if ("AC", n) not in covered]
+        if st in ("verified", "released"):
+            for i in items:
+                if led.get(i, "—") in ("", "—", "-"):
+                    gaps.append("%s: %s has no `Verified by` evidence" % (sid, i))
+        if st == "verified" and sid not in rel_by_spec:
+            gaps.append("%s: verified, not in any release" % sid)
+        if st == "released" and sid not in prd_by_spec:
+            gaps.append("%s: released but no PRD FEAT cites it" % sid)
+        report.append({"id": sid, "status": st, "requirements": ["R%d" % n for n in rs],
+                       "acceptance": ["AC%d" % n for n in acs], "items": items,
+                       "releases": rel_by_spec.get(sid, []), "prd_features": prd_by_spec.get(sid, [])})
+    if as_json:
+        print(json.dumps({"specs": report, "gaps": gaps}, indent=2))
+    else:
+        for r in report:
+            print("%s (%s): %d R · %d AC · %d items · releases %s · PRD %s" % (
+                r["id"], r["status"], len(r["requirements"]), len(r["acceptance"]), len(r["items"]),
+                ", ".join("v" + v for v in r["releases"]) or "—", ", ".join(r["prd_features"]) or "—"))
+        for g in gaps:
+            print("GAP " + g)
+        print("%d gaps" % len(gaps))
+    return 1 if (strict and gaps) else 0
+
+
 def main(argv=None):
     p = argparse.ArgumentParser(prog="spec_check.py")
     sub = p.add_subparsers(dest="cmd", required=True)
@@ -400,7 +641,21 @@ def main(argv=None):
     pl = sub.add_parser("plan", help="check work items of a task; print batches + critical path")
     pl.add_argument("task_dir")
     pl.add_argument("--json", action="store_true", help="machine-readable manifest")
+    pr = sub.add_parser("prd", help="validate the living PRD (released behavior only)")
+    pr.add_argument("prd_file")
+    rl = sub.add_parser("release", help="validate a release doc")
+    rl.add_argument("release_file")
+    tr = sub.add_parser("trace", help="R → item → evidence → release → PRD, with gaps")
+    tr.add_argument("root")
+    tr.add_argument("--json", action="store_true")
+    tr.add_argument("--strict", action="store_true", help="exit 1 when gaps exist")
     a = p.parse_args(argv)
+    if a.cmd == "prd":
+        return prd(a.prd_file)
+    if a.cmd == "release":
+        return release(a.release_file)
+    if a.cmd == "trace":
+        return trace(a.root, a.json, a.strict)
     if a.cmd == "gaps":
         return gaps(a.doc, a.path)
     if a.cmd == "plan":
