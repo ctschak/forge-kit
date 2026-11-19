@@ -11,6 +11,7 @@ Input: specs with status `verified` + their readiness reports (`stages/review.md
 3. **Rollout facts** (approval point): ask the user what happened — merged? deployed where, when, by whom? flags / staged rollout? Record only what they confirm; nothing confirmed → stop at `planned`.
 4. **Mark released**: each spec `status: released`, `released_in: vX.Y.Z`; release doc `status: released`, rollout + rollback section filled.
 5. **Update PRD**: per spec, add or change `## FEAT-n` sections with `Added by: SPEC-n` / `Changed by: SPEC-n`, behavior as now released (from spec R/AC + readiness evidence), evidence level from rollout facts; PRD `revision` +1, `## Changes` line.
+5a. **UX evidence:** for released UI changes, link actual verified implementation screenshots in the affected PRD FEAT sections per `rules/ux.md`; retain prototype screenshots in the spec, never as released evidence. Label the capture environment and evidence level; omit unavailable images with reason.
 6. **Check**: `spec_check.py release <file>`, `spec_check.py prd <root>/PRD.md`, `spec_check.py trace <root> --strict` → fix gaps.
 7. **Outcome hooks**: copy each spec's KPIs (baseline, target) into the release doc with a check date matched to usage frequency — input for the product `outcome` stage.
 8. **Tag**: propose `git tag product-vX.Y.Z` (user runs, G2).
