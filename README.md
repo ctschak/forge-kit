@@ -48,6 +48,10 @@ python3 plugins/forge/skills/forge/scripts/spec_check.py gaps <doc.md>          
 python3 plugins/forge/skills/forge/scripts/spec_check.py plan <task dir> [--json] # work items: coverage, deps, batches
 ```
 
+## Code-first UX
+
+For material customer-facing changes, Forge generates a locally openable interactive HTML prototype and actual browser screenshots before spec approval. The spec embeds screenshots and links the prototype; baseline and released PRDs embed actual product screenshots only. Minor UI changes reuse existing components; non-UI changes skip UX. No Figma or external provider required. Browser validation uses existing tooling where available. See `plugins/forge/skills/forge/rules/ux.md`.
+
 ## Quality
 
 The test stage detects the project's own checks (`scripts/quality_detect.py`: npm scripts, CI, tool config) and runs the relevant ones; anything not run is reported with the reason. Code review covers three perspectives — static, functional, architecture — fixes blockers (max 3 rounds) and writes a readiness report that separates implemented, reviewed, verified and release-ready. Language/DB profiles: `plugins/forge/skills/forge/rules/profiles/`. Rules: `rules/quality.md`.

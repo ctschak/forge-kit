@@ -23,6 +23,7 @@ Read first: `understanding.md` (no file + code exists → run `stages/onboard.md
 5. **Findings from supplied reports** → Known gaps: `observed in <report, date, commit> — needs current verification`; verify against current code when cheap and say which.
 6. **Open questions** from reports/users → `## Open decisions` (Q1…), preserved verbatim; no answers invented.
 7. **KPIs + telemetry today**: what is actually measured / logged now; missing = `not measured`.
+7a. **Current UX evidence** — apply `rules/ux.md`: capture actual safe local/demo or authorized existing-product screenshots of representative screens, embed relative image links in relevant FEAT sections with evidence captions. Never put proposed UX in the baseline. If inaccessible, state why rather than fabricate images.
 8. Validate: `python3 <skill dir>/scripts/spec_check.py prd <root>/PRD.md`.
 9. **Approval point.** Show ≤ 15 lines: features + evidence mix, biggest gaps, open decisions. Approved → `status: approved`, `## Changes` line `YYYY-MM-DD rev 1: baseline`, then propose `git tag product-baseline-YYYY-MM-DD` (user runs, G2).
 
