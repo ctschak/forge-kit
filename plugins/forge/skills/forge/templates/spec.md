@@ -59,6 +59,25 @@ source_rev: <git short sha>
 ## Rollout
 <!-- deep (standard if risky): flag / pilot / staged steps, rollback trigger + action -->
 
+## UX
+<!-- only when front matter `ui: true` (stages/ux.md, rules/ux.md, CT14). Remove otherwise. -->
+[Open interactive HTML prototype](ux/rev-1/index.html) · standards: DESIGN.md / `ux-standards.md`
+
+| ID | Screen | Roles |
+|---|---|---|
+| S1 | | |
+
+![S1 — desktop, default](ux/rev-1/screens/s1-desktop-default.png)
+Prototype · rev 1 · R1, AC1 · 1440×900
+
+States: loading · empty · error · no permission <!-- only those that apply -->
+
+Copy: <!-- exact strings that carry meaning -->
+
+| ID | UX rule | Serves |
+|---|---|---|
+| U1 | | R1 |
+
 ## Approvals
 <!-- YYYY-MM-DD <name> rev <n> -->
 

@@ -26,7 +26,7 @@
 | Perspective | Checks | Evidence first |
 |---|---|---|
 | **static** | lint / type / format / security / dependency check results (`rules/quality.md`); `rules/code-standards.md`; matching `rules/profiles/*.md` items; idioms, maintainability, correctness | tool output in ledger; reasoning only where tools are silent or not run |
-| **functional** | every spec AC has a passing test that would fail without the change (QG7); authz + tenant boundaries; edge + error cases; regressions; user journey; ledger `✅` rows have `Verified by` (G5); no scope creep (G8) | spec, tests, ledger |
+| **functional** | every spec AC has a passing test that would fail without the change (QG7); authz + tenant boundaries; edge + error cases; regressions; user journey; UI matches `U*` rules + approved screenshots, implementation screenshots linked (`rules/ux.md` UX4, when `ui: true`); ledger `✅` rows have `Verified by` (G5); no scope creep (G8) | spec, tests, ledger |
 | **architecture** | contracts + compatibility; modularity, coupling; failure handling, retries, idempotency; performance; data integrity + migrations (`rules/profiles/database.md`); security on changed surface (`rules/security-checklist.md`); rollout + rollback; matches design + evolution path | design, code |
 
 Depth by path: fast / standard → one pass, one section per perspective. Deep → three separate passes.

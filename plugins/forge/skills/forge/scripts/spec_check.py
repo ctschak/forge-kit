@@ -84,6 +84,40 @@ def defined(kind, body):
     return out
 
 
+UX_PROTO_RE = re.compile(r"\]\((ux/rev-[0-9]+/[^)\s]*\.html)\)")
+IMG_RE = re.compile(r"!\[[^\]]*\]\(([^)\s]+)\)")
+DEF_U_RE = re.compile(r"^\s*(?:[-*]\s*|\|\s*)\**U([0-9]+)\b")
+
+
+def check_ux(path, sections, rs):
+    """CT14: `ui: true` → `## UX` links an existing prototype, image paths exist, U rules cite existing R."""
+    body = sections.get(norm("UX"))
+    if body is None:
+        return ["ERROR ui: `## UX` missing → run stages/ux.md (prototype, screenshots, U rules) (CT14)"]
+    errors = []
+    body = COMMENT_RE.sub("", body)
+    folder = os.path.dirname(os.path.abspath(path))
+    protos = UX_PROTO_RE.findall(body)
+    if not protos:
+        errors.append("ERROR ui: `## UX` links no prototype → add [prototype](ux/rev-N/index.html) (CT14)")
+    for rel in protos:
+        if not os.path.isfile(os.path.join(folder, rel)):
+            errors.append("ERROR ui: prototype `%s` not found → build it (stages/ux.md step 3)" % rel)
+    for rel in IMG_RE.findall(body):
+        if "://" not in rel and not os.path.isfile(os.path.join(folder, rel)):
+            errors.append("ERROR ui: screenshot `%s` not found → capture it or remove the link (rules/ux.md UX2)" % rel)
+    for line in body.splitlines():
+        m = DEF_U_RE.match(line)
+        if not m:
+            continue
+        cited = {int(x) for x in CITE_R.findall(line[m.end():])}
+        if not cited:
+            errors.append("ERROR U%s: cites no requirement → add the R<n> it serves (CT14)" % m.group(1))
+        for c in sorted(cited - set(rs)):
+            errors.append("ERROR U%s: cites R%d which is not in `## Requirements`" % (m.group(1), c))
+    return errors
+
+
 def check(path, require_approved=False, pinned_rev=None):
     with open(path, encoding="utf-8") as fh:
         text = fh.read()
@@ -151,6 +185,9 @@ def check(path, require_approved=False, pinned_rev=None):
             covered |= cited
         for n in sorted(set(rs) - covered):
             err("ERROR R%d: no acceptance criterion → add an AC that verifies R%d" % (n, n))
+
+    if front.get("ui", "").lower() == "true" and status != "dropped":
+        errors.extend(check_ux(path, sections, defined("R", sections.get(norm("Requirements"), ""))))
 
     if status in APPROVED_OR_LATER:
         approvals = sections.get(norm("Approvals"), "")

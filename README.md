@@ -50,7 +50,7 @@ python3 plugins/forge/skills/forge/scripts/spec_check.py plan <task dir> [--json
 
 ## Code-first UX
 
-For material customer-facing changes, Forge generates a locally openable interactive HTML prototype and actual browser screenshots before spec approval. The spec embeds screenshots and links the prototype; baseline and released PRDs embed actual product screenshots only. Minor UI changes reuse existing components; non-UI changes skip UX. No Figma or external provider required. Browser validation uses existing tooling where available. See `plugins/forge/skills/forge/rules/ux.md`.
+For material customer-facing changes (spec `ui: true`), Forge generates a locally openable interactive HTML prototype and actual browser screenshots before spec approval. The spec's `## UX` embeds screenshots, links the prototype and lists UX rules `U*` tied to requirements — the validator checks the files exist; baseline and released PRDs embed actual product screenshots only. Minor UI changes reuse existing components; non-UI changes skip UX. No Figma or external provider required. Browser validation uses existing tooling where available. See `plugins/forge/skills/forge/rules/ux.md`.
 
 ## Quality
 

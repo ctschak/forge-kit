@@ -74,7 +74,7 @@ fi
 # 4b. Every routed stage/rule/template exists (SKILL.md routes some via patterns)
 EXPECTED="stages/onboard.md stages/ai-readiness.md stages/design.md stages/architect.md
 stages/impl-plan.md stages/develop.md stages/test.md stages/review.md
-stages/discover.md stages/spec.md rules/contract.md templates/spec.md scripts/spec_check.py
+stages/discover.md stages/spec.md stages/ux.md rules/ux.md templates/ux-standards.md rules/contract.md templates/spec.md scripts/spec_check.py
 stages/publish.md rules/trackers.md scripts/tracker_sync.py
 rules/quality.md rules/profiles/js-ts.md rules/profiles/java.md rules/profiles/python.md rules/profiles/database.md
 scripts/quality_detect.py templates/readiness.md

@@ -95,6 +95,57 @@ class SpecCheckTest(unittest.TestCase):
         out = self.assertOk("# Old design\n\nStatus: design · ✅\n\n## Problem\nx\n")
         self.assertIn("legacy", out)
 
+    # --- CT14 UX ---
+    UX = ("[Open interactive HTML prototype](ux/rev-2/index.html)\n\n"
+          "![S1 desktop](ux/rev-2/screens/s1-desktop-default.png)\n\n"
+          "| ID | UX rule | Serves |\n|---|---|---|\n| U1 | Next lesson visible without scrolling | R1 |")
+
+    def ux_files(self, html=True, png=True):
+        d = os.path.join(self.tmp.name, "tasks", "07_lesson-reminders", "ux", "rev-2", "screens")
+        os.makedirs(d, exist_ok=True)
+        if html:
+            open(os.path.join(d, "..", "index.html"), "w").write("<!doctype html>")
+        if png:
+            open(os.path.join(d, "s1-desktop-default.png"), "wb").write(b"\x89PNG")
+
+    def test_ui_complete_ok(self):
+        self.ux_files()
+        self.assertOk(build(front={"ui": "true"}, sections={"UX": self.UX}))
+
+    def test_ui_false_not_checked(self):
+        self.assertOk(build(front={"ui": "false"}))
+
+    def test_ui_missing_ux_section(self):
+        self.assertError(build(front={"ui": "true"}), "`## UX` missing")
+
+    def test_ui_missing_prototype_file(self):
+        self.ux_files(html=False)
+        self.assertError(build(front={"ui": "true"}, sections={"UX": self.UX}), "prototype")
+
+    def test_ui_no_prototype_link(self):
+        self.ux_files()
+        ux = self.UX.replace("[Open interactive HTML prototype](ux/rev-2/index.html)", "Prototype: see folder")
+        self.assertError(build(front={"ui": "true"}, sections={"UX": ux}), "prototype")
+
+    def test_ui_screenshot_path_missing(self):
+        self.ux_files(png=False)
+        self.assertError(build(front={"ui": "true"}, sections={"UX": self.UX}), "s1-desktop-default.png")
+
+    def test_ui_image_in_comment_ignored(self):
+        self.ux_files()
+        ux = self.UX + "\n<!-- ![later](ux/rev-2/screens/none.png) -->"
+        self.assertOk(build(front={"ui": "true"}, sections={"UX": ux}))
+
+    def test_ui_rule_cites_unknown_r(self):
+        self.ux_files()
+        ux = self.UX.replace("| U1 | Next lesson visible without scrolling | R1 |", "| U1 | Next lesson visible | R9 |")
+        self.assertError(build(front={"ui": "true"}, sections={"UX": ux}), "U1")
+
+    def test_ui_rule_cites_nothing(self):
+        self.ux_files()
+        ux = self.UX.replace("| R1 |", "| — |")
+        self.assertError(build(front={"ui": "true"}, sections={"UX": ux}), "U1")
+
     # --- front matter ---
     def test_missing_field(self):
         self.assertError(build(front={"revision": None}), "revision")

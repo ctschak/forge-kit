@@ -1,7 +1,7 @@
 ---
 name: forge
 description: Use when turning an idea, feature request, bug or existing product into shipped, verified software — evaluating whether to build, writing a spec, MVP scoping, designing, architecting, planning, building, testing or reviewing work in a project; onboarding onto an unfamiliar codebase; auditing AI-assisted-dev setup; or continuing work tracked in docs/forge.
-argument-hint: "[<request> | new <desc> | discover | spec | design | architect | impl-plan | develop | test | review <spec|design|arch|test|code> [target] | onboard | ai-readiness] [task#]"
+argument-hint: "[<request> | new <desc> | discover | spec | ux | design | architect | impl-plan | develop | test | review <spec|design|arch|test|code> [target] | onboard | ai-readiness] [task#]"
 ---
 
 # forge
@@ -39,7 +39,7 @@ tasks/NN_<slug>/reviews/YYYY-MM-DD_<type>_review.md
 | `onboard` | `stages/onboard.md` |
 | `ai-readiness` | `stages/ai-readiness.md` |
 | `new <desc>` or free-text request for new work | §4 |
-| `discover` · `spec` | `stages/<name>.md` on active task |
+| `discover` · `spec` · `ux` | `stages/<name>.md` on active task (`ux` = HTML prototype + screenshots, runs inside spec when `ui: true`) |
 | `design [SPEC-n \| path \| #issue \| text]` | `stages/design.md` (resolves input, normalizes external docs) |
 | `develop [SPEC-n.TASKk \| #issue \| batch]` | `stages/develop.md` |
 | `architect` · `impl-plan` · `test` | `stages/<name>.md` on active task |
@@ -65,9 +65,9 @@ No tasks yet: repo has code, no `understanding.md`, request needs code knowledge
 
 | Path | When | Steps | Approval points (G1) |
 |---|---|---|---|
-| fast | clear, reversible, low-risk (defect, small tweak) | spec (fast) → develop → test → review code | spec |
-| standard | feature; new product idea with a small, reversible MVP | discover (lite; skip if problem + user clear) → spec → design → impl-plan → develop → test → review code | spec · design |
-| deep | hard to undo or wide blast radius: data migration, security/auth, money, cross-system contracts. Not for demand uncertainty — discover's "test first" handles that | discover → spec → design → architect → review design+arch → impl-plan → develop → test → review test+code → staged rollout | spec · design+arch · plan · rollout |
+| fast | clear, reversible, low-risk (defect, small tweak) | spec (+ux if UI) (fast) → develop → test → review code | spec |
+| standard | feature; new product idea with a small, reversible MVP | discover (lite; skip if problem + user clear) → spec (+ux if UI) → design → impl-plan → develop → test → review code | spec · design |
+| deep | hard to undo or wide blast radius: data migration, security/auth, money, cross-system contracts. Not for demand uncertainty — discover's "test first" handles that | discover → spec (+ux if UI) → design → architect → review design+arch → impl-plan → develop → test → review test+code → staged rollout | spec · design+arch · plan · rollout |
 
 Old sizes still accepted: Fix = fast, Change = standard, Build = deep.
 
@@ -85,7 +85,7 @@ Aims, not promises: fast in hours; standard MVP slice usable in 2–3 days, prod
 4. Run it, then the next, through the path: spec → design → plan → develop → test (quality gate, `rules/quality.md`) → review code (3 perspectives + fix loop) → readiness report. Stop only for: approval point, decision-changing ambiguity, irreversible/external action, missing authority, blocker, `until`.
    - Approval denied → Log `[approval] denied: <reason>`, stop, offer alternatives (revise, smaller scope, drop); build nothing.
    - Project `CLAUDE.md` `forge-approvals: combined` + spec approved → standard path asks design + plan approval together (one stop).
-5. Load only that stage file + the files it needs. For customer-facing work, load `rules/ux.md`: code-first HTML prototypes and embedded browser screenshots before spec approval when materially useful; no external design tool or extra approval gate required.
+5. Load only that stage file + the files it needs. Customer-facing work → also `rules/ux.md`.
 
 If `understanding.md` commit SHA is ≥ 30 commits behind `HEAD` (`git rev-list --count <sha>..HEAD`), offer `onboard` refresh first.
 

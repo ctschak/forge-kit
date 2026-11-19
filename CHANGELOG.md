@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.6.0 — 2026-11-18
+
+Code-first UX: merges PR #1 (`rules/ux.md`) with the Leadly dogfood UX stage (SPEC-8–11).
+
+- `rules/ux.md` UX1–UX5: when UX applies, prototype + real browser screenshots before spec approval, PRD/release screenshots of the real product only, implementation screenshots at test. Adds `ui: true`, prototype controls (state · role · theme · viewport + URL params), project standards (DESIGN.md, else `ux/ux-standards.md`).
+- `stages/ux.md` (procedure) + `templates/ux-standards.md`; spec gets `## UX` (`templates/spec.md`): prototype link, screens `S*`, states, copy, rules `U<n>` → R. No separate UX document. Artifacts: `ux/rev-N/index.html`, `ux/rev-N/screens/*.png`.
+- Contract CT2 optional `ui`, CT3 `UX` row, CT14: `spec_check.py check` with `ui: true` → `## UX` present, prototype file exists, every image path exists, every `U` cites an existing R (+9 tests).
+- Spec step 4a, design step 3, review functional perspective, test 4a, prd 7a, release 5a cite `rules/ux.md`.
+- Figma not required: Starter-plan limits (3 pages, 1 variable mode, MCP call cap) blocked a 4-spec set; HTML prototypes need no account.
+- Migration (pre-release local layout): `_ux.md` + `ux/<slug>-mockup.html` → fold UX spec into `## UX`, move mockup to `ux/rev-N/index.html`.
+
 ## 0.5.0 — 2026-11-18
 
 Phase 2 (plan `docs/2026-11-18-forge-phase2-plan.md`).
