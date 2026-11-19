@@ -27,6 +27,7 @@ releases/vX.Y.Z.md                                ← what shipped, when, eviden
 tasks/index.md
 tasks/NN_<slug>/YYYY-MM-DD_<slug>_spec.md        ← product: SPEC-<NN>, rules/contract.md
 tasks/NN_<slug>/YYYY-MM-DD_<slug>_design.md      ← engineering (standard, deep)
+tasks/NN_<slug>/ux/rev-N/index.html, screens/*.png  ← optional code-first UX
 tasks/NN_<slug>/impl-tasks/ledger.md, NN_<step>.md
 tasks/NN_<slug>/reviews/YYYY-MM-DD_<type>_review.md
 ```
@@ -84,7 +85,7 @@ Aims, not promises: fast in hours; standard MVP slice usable in 2–3 days, prod
 4. Run it, then the next, through the path: spec → design → plan → develop → test (quality gate, `rules/quality.md`) → review code (3 perspectives + fix loop) → readiness report. Stop only for: approval point, decision-changing ambiguity, irreversible/external action, missing authority, blocker, `until`.
    - Approval denied → Log `[approval] denied: <reason>`, stop, offer alternatives (revise, smaller scope, drop); build nothing.
    - Project `CLAUDE.md` `forge-approvals: combined` + spec approved → standard path asks design + plan approval together (one stop).
-5. Load only that stage file + the files it needs.
+5. Load only that stage file + the files it needs. For customer-facing work, load `rules/ux.md`: code-first HTML prototypes and embedded browser screenshots before spec approval when materially useful; no external design tool or extra approval gate required.
 
 If `understanding.md` commit SHA is ≥ 30 commits behind `HEAD` (`git rev-list --count <sha>..HEAD`), offer `onboard` refresh first.
 
