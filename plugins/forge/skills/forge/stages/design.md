@@ -21,6 +21,7 @@ Task has an approved spec (`rules/contract.md`) → it owns Problem → Use case
 1. Run `python3 <skill dir>/scripts/spec_check.py check <spec> --require-approved`. Errors → back to spec stage; don't design around them.
 2. Design header: `Spec: SPEC-n @ rev N` (pins revision; later checks add `--rev N` → stale if spec changed).
 3. Problem → Use cases sections = one line each linking the spec; cite `SPEC-n.R*` / `AC*`, never restate them (CT9).
+3a. For UI work, read the spec's approved `## UX`, HTML/screenshots and existing DESIGN.md (or equivalent); apply `rules/ux.md`. Treat prototype as visual/interaction intent, not production architecture; resolve any conflict with the spec before implementing.
 4. Inspect the real code, contracts, tests, conventions; write **minimum sufficient** engineering content — sections by path below, omit the rest.
 5. Material gaps → list each with a proposed decision; product answers go to spec `## Clarifications` (scope change → CT8).
 
