@@ -9,6 +9,8 @@ Claude Code plugin marketplace. First plugin: **forge** — one skill that takes
 /plugin install forge@forge-kit
 ```
 
+Optional: recommended user memory — copy what you want from [`USER_MEMORY__CLAUDE.md`](USER_MEMORY__CLAUDE.md) into your `~/.claude/CLAUDE.md` (concise answers, plan before code, agent never commits, no `--no-verify`, honest reporting, TypeScript and test rules).
+
 ## Use
 
 Just describe the work, or run `/forge:forge` to continue where you left off.
