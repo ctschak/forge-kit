@@ -79,7 +79,7 @@ stages/publish.md rules/trackers.md scripts/tracker_sync.py
 rules/quality.md rules/profiles/js-ts.md rules/profiles/java.md rules/profiles/python.md rules/profiles/database.md
 scripts/quality_detect.py templates/readiness.md
 stages/prd.md stages/release.md templates/prd.md templates/release.md templates/reviewer-brief.md scripts/changed_coverage.py
-rules/guardrails.md rules/doc-style.md rules/api-standards.md rules/code-standards.md
+rules/guardrails.md rules/doc-style.md rules/api-standards.md rules/code-standards.md rules/readiness.md
 rules/test-standards.md rules/security-checklist.md rules/diagrams.md
 templates/design.md templates/impl-task.md templates/ledger.md templates/review.md
 templates/understanding.md templates/health.md templates/tasks-index.md

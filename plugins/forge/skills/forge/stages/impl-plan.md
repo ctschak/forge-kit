@@ -14,7 +14,7 @@ Input: approved design (fast: approved spec). Output: `tasks/NN_<slug>/impl-task
 2. **Files:** `NN_<kebab-slug>.md`, NN in execution order, zero-padded; front matter `id: SPEC-n.TASK<NN>`, `type`, `refs` (R/AC + design §), `depends_on`, `layer`. Fill every template field: Outcome, Scope / non-scope, Acceptance criteria, Files (verify paths exist), Steps, Code (signatures + non-obvious parts), Verify (exact command + expected), Done when, Blockers.
 3. **Check:** `python3 <skill dir>/scripts/spec_check.py plan <task dir>` → fix every error (uncovered R/AC, unknown dep, cycle, duplicate, bad id). Stale design pin → back to design.
 4. **Ledger:** one row per item, all `⬜ not started`; `Next:` = first item of batch 1; `Batches:` + `Critical path:` from the check.
-5. **Show** table (ID, item, type, depends, verify) + batches + critical path. Approval point only on deep path; otherwise continue to develop (SKILL.md §5).
+5. **Show** table (ID, item, type, depends, verify) + batches + critical path. Approval point on the deep path, and on the standard path with `forge-approvals: combined` (design + plan together); before it, `rules/readiness.md` RD1–RD6 over the plan (and the design when combined). Otherwise continue to develop (SKILL.md §5).
 6. **Publish (optional):** project has `forge-tracker:` other than `local`, or user asks → `stages/publish.md`.
 
 ## Done when

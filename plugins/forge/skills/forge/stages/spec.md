@@ -13,7 +13,7 @@ Read first: discover output in the same spec (standard, deep); request + code fo
 4. **Priorities** (standard, deep): Now = MVP slice, aim 2–3 days of build, with what was cut and why; Next = path to production-ready (aim ≤ 2 weeks) or the constraint that prevents it; Later.
 4a. **UX** (`rules/ux.md` UX1): material UI change → front matter `ui: true`, run `stages/ux.md` now (prototype + screenshots + `## UX`); the approval below covers both. Small UI change → reuse components, screenshots at test. No UI → skip.
 5. **Validate**: `python3 <skill dir>/scripts/spec_check.py check <spec>`. Fix every error; ask the user only when the fix needs their decision.
-6. **Approval point.** Show ≤ 15 lines: objective + success/failure, MVP slice, non-goals, R/AC counts, KPIs, open assumptions, prototype path + screenshots (if `ui: true`), `validator: OK`. Ask to approve rev N.
+6. **Approval point.** First run `rules/readiness.md` RD1–RD6 (RD6 = `review spec`). Show ≤ 15 lines plus the readiness line: objective + success/failure, MVP slice, non-goals, R/AC counts, KPIs, open assumptions, prototype path + screenshots (if `ui: true`), `validator: OK`. Ask to approve rev N.
    - Approved → `## Approvals` line `YYYY-MM-DD <name> rev N` (CT7), status `approved`, index row updated, re-run validator.
    - Changes → revise, re-validate, ask again.
 7. **Continue** (SKILL.md §5): fast → develop; standard/deep → design. Print the one-line next step and start it.

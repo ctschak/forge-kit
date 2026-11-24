@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.7.0 — 2026-11-24
+
+Readiness before every approval point (from the Leadly dogfood: a spec deferred work to an unowned item past a CI deadline, missed a related debt item, claimed test coverage without evidence).
+
+- `rules/readiness.md` RD1–RD6: related records (debt, backlog, tracker), deferrals checked against the deferred item's live state and the driving deadline, coverage claims with `file:line`, no placeholders, consistency, and `stages/review.md` run on the document. Results go in the approval message.
+- Spec step 6, design (fast and standard/deep "Done when"), impl-plan step 5 cite RD1–RD6 before their approval point.
+- impl-plan step 5: with `forge-approvals: combined` the standard path stops after impl-plan for one approval of design + plan.
+
 ## 0.6.0 — 2026-11-18
 
 Code-first UX: merges PR #1 (`rules/ux.md`) with the Leadly dogfood UX stage (SPEC-8–11).

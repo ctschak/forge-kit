@@ -55,7 +55,7 @@ Questions per SKILL.md §6.1: only decision-changing, batched, with defaults. Gu
 
 1. Reproduce or locate root cause; cite `file:line`.
 2. Write Problem, Solving exactly, Detailed design with **before vs after** code, Test coverage (failing test that proves the bug).
-3. Approval → develop.
+3. `rules/readiness.md` RD1–RD6 → approval → develop.
 
 ## Write
 
@@ -69,4 +69,5 @@ Questions per SKILL.md §6.1: only decision-changing, batched, with defaults. Gu
 - Every R# testable; every UC# maps to ≥1 R#.
 - DG2 diagrams present (or `n/a — <why>`), each captioned.
 - Open questions listed (or none).
+- `rules/readiness.md` RD1–RD6 run (RD6 = `review design` + `review test`); with `forge-approvals: combined` they run after impl-plan, over design + plan together.
 - Approval point per path (SKILL.md §4) → `Status: design · ✅`, index updated, next step started (architect for deep, impl-plan for standard).
