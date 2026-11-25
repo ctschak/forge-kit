@@ -135,6 +135,17 @@ class PlanTest(unittest.TestCase):
         for key in ():
             self.assertIn(key, first)
 
+    def test_same_file_in_one_batch(self):
+        self.add(1, refs="[R1, AC1]", files=("package.json", "package-lock.json"))
+        self.add(2, refs="[R2, AC2]", files=("web/package.json", "package-lock.json"))
+        out = self.assertPlanError("SPEC-7.TASK1 and SPEC-7.TASK2 both write `package-lock.json` in batch 1")
+        self.assertNotIn("`package.json`", out)
+
+    def test_same_file_sequenced_is_ok(self):
+        self.add(1, refs="[R1, AC1]", files=("package-lock.json",))
+        self.add(2, refs="[R2, AC2]", deps="[SPEC-7.TASK1]", files=("package-lock.json",))
+        self.assertPlanOk()
+
     def test_uncovered_ac(self):
         self.add(1, refs="[R1, R2, AC1]")
         self.assertPlanError("AC2")

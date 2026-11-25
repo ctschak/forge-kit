@@ -325,13 +325,15 @@ def plan(task_dir, as_json=False):
             if rm and int(rm.group(2)) not in (rs if rm.group(1) == "R" else acs):
                 err("ERROR %s: ref %s not in spec %s" % (f, r, sid))
         title = re.search(r"^#\s+(?:\d+\s+)?(.+?)\s*$", text, re.M)
-        paths = re.findall(r"`([^`]+)`", sections.get(norm("Files"), ""))
+        files_sec = sections.get(norm("Files"), "")
+        paths = re.findall(r"`([^`]+)`", files_sec)
+        writes = set(re.findall(r"^\s*-\s*(?:Modify|Create):\s*`([^`]+)`", files_sec, re.M))
         outcome = COMMENT_RE.sub("", sections.get(norm("Outcome"), "")).strip().splitlines()
         items[iid] = {"id": iid, "type": itype, "layer": layer, "refs": refs,
                       "outcome": outcome[0].strip() if outcome else "",
                       "depends_on": as_list(front.get("depends_on")),
                       "title": title.group(1) if title else f, "file": "impl-tasks/" + f,
-                      "_paths": sorted(paths)}
+                      "_paths": sorted(paths), "_writes": writes}
 
     covered = set()
     for it in items.values():
@@ -406,6 +408,17 @@ def plan(task_dir, as_json=False):
     for n in order:
         lvl(n)
     batches = [[n for n in order if level[n] == k] for k in range(1, max(level.values()) + 1)]
+    # items in one batch may run in parallel → they must not write the same file
+    for k, b in enumerate(batches, 1):
+        for i, a in enumerate(b):
+            for c in b[i + 1:]:
+                for p in sorted(items[a]["_writes"] & items[c]["_writes"]):
+                    errors.append("ERROR batch: %s and %s both write `%s` in batch %d → add depends_on to sequence them"
+                                  % (a, c, p, k))
+    if errors:
+        for e in errors:
+            print(e)
+        return 1
     end = max(order, key=lambda n: (length[n], -task_num(n)))
     path = []
     while end:

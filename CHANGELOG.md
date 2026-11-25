@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.7.1 — 2026-11-25
+
+From the Leadly dogfood (dependency bump): RD3 checked only the tests the spec named, so an untested consumer of the changed behaviour (a second webhook using the raw body) slipped past spec, design and review; two plan items that both rewrite the lockfile were batched in parallel.
+
+- `rules/readiness.md` RD3: consumers first — for a change to shared behaviour, search the code for every consumer and list each with its test; a cited test must assert the claimed behaviour (read it, not just the line).
+- `spec_check.py plan`: error when two items in one batch both `Modify:`/`Create:` the same file → sequence with `depends_on` (+2 tests). `stages/impl-plan.md` step 3 names the check.
+
 ## 0.7.0 — 2026-11-24
 
 Readiness before every approval point (from the Leadly dogfood: a spec deferred work to an unowned item past a CI deadline, missed a related debt item, claimed test coverage without evidence).
