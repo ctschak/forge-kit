@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.7.2 — 2026-11-26
+
+From the Leadly dogfood (second dependency-bump run): the session's own reviews passed a false conclusion drawn from correct numbers, an AC weaker than its KPI target, and a scope item with no AC. A self-review is anchored on the author's conclusions.
+
+- `rules/readiness.md` RD4: a claim about how code, a tool or a gate behaves cites `file:line` or a run; numbers alone don't prove a behaviour. RD5: objective + KPI targets in the consistency check; every scope bullet maps to an R/AC; no AC weaker than the objective/KPI it serves.
+- `stages/review.md`: spec and design reviews re-run every fact that drives scope, a requirement or a decision, and record the result. `forge-review: independent` now applies on any path (was deep only) and covers document reviews (spec, design, arch, test — incl. RD6 before an approval): one fresh-context reviewer per document.
+- `templates/reviewer-brief.md`: document variant (target, docs it builds on, `understanding.md`, readiness rules; returns findings + facts re-run).
+
 ## 0.7.1 — 2026-11-25
 
 From the Leadly dogfood (dependency bump): RD3 checked only the tests the spec named, so an untested consumer of the changed behaviour (a second webhook using the raw body) slipped past spec, design and review; two plan items that both rewrite the lockfile were batched in parallel.
