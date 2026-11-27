@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.3 — 2026-11-27
+
+From the Leadly dogfood: the independent spec reviewer returned its facts re-run, but the review file had no place for them, so the author dropped them and the file only said "facts largely confirmed".
+
+- `templates/review.md`: `## Facts re-run` section (fact — command or `file:line` → confirmed / wrong). `stages/review.md` spec row points to it.
+
 ## 0.7.2 — 2026-11-26
 
 From the Leadly dogfood (second dependency-bump run): the session's own reviews passed a false conclusion drawn from correct numbers, an AC weaker than its KPI target, and a scope item with no AC. A self-review is anchored on the author's conclusions.

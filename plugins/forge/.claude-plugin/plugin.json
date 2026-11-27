@@ -1,6 +1,6 @@
 {
   "name": "forge",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "description": "Idea to verified software: discover, spec (validated product-engineering contract), design, plan, build, test and review on fast, standard or deep paths, with resumable docs.",
   "author": {
     "name": "Chakravarthy Ravichandran"

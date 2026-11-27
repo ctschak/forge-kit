@@ -13,6 +13,10 @@ Verdict: <approve | changes needed>
 
 <!-- critical/high = blocker. Code review: one section per perspective when useful. -->
 
+## Facts re-run
+<!-- spec / design / arch / test: every fact that drives scope, a requirement or a decision (stages/review.md). Copied from the reviewer's return, one line each. -->
+- `<fact>` — `<command / file:line>` → confirmed | wrong: <what is true>
+
 ## Checked
 <!-- what was reviewed against: R#/UC#, rules files, domain pack -->
 
